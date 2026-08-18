@@ -22,3 +22,6 @@ credentials.json
 
 .vscode/
 .idea/
+
+# Statement of Work / engagement charter (do not commit)
+project_details.md
