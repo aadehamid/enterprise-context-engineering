@@ -3,7 +3,7 @@ background:
   type: solid
   color: "#FFFFFF"
 notes: |
-  End-to-end solution architecture for the CI KM capability, in the reference consulting format. Left: real CI knowledge sources from the inventory (Backcast Report SharePoint, regional SharePoints, email chains, MS Teams, OneNote, Planning DB/PIR, Value Opportunity Trackers) with callout 1 automated capture. Feeds column: Graph API connectors, batch crawl, event triggers, manual SME upload. Central zone: ingestion microservices, landing (immutable raw store, event log, lineage), traditional AI/ML (OCR, speech-to-text with diarization, classification, dedup, table extraction), LLM curation as pink overlay callout 2 (template extraction, taxonomy tagging, summarization, entity/relationship extraction, draft confidence scoring, embedding and chunking), SME review queue as human gate callout 4, extraction quality monitoring. Platform zone with banner callout 3: knowledge graph + Profisee metadata as single source of truth; repository, vector + keyword indexes, hybrid retrieval, quality and confidence layer, persistent source links. Access column: faceted search, Q&A assistant with citations and confidence badges, APIs/MCP, subscriptions, usage feedback capture. Consumers: planning and scheduling, backcast and lookback, CI leadership reviews, and dashed future-phase decision-support agents. Dashed feedback loop returns usage signals and SME corrections to curation. Bottom band callout 5: common platform services — governance and lifecycle, quality-tier model, access control and sensitivity, audit and versioning, continuous improvement, monitoring.
+  End-to-end solution architecture for the CI KM capability, in the reference consulting format. Left: real CI knowledge sources from the inventory (LSC Backcast Report Library, LSC regional SharePoint sites, email chains, MS Teams, OneNote, LSC Planning DB / Impact Log, Value Opportunity Trackers) with callout 1 automated capture. Feeds column: Graph API connectors, batch crawl, event triggers, manual SME upload. Central zone: ingestion microservices, landing (immutable raw store, event log, lineage), traditional AI/ML (OCR, speech-to-text with diarization, classification, dedup, table extraction), LLM curation as pink overlay callout 2 (template extraction, taxonomy tagging, summarization, entity/relationship extraction, draft confidence scoring, embedding and chunking), SME review queue as human gate callout 4, extraction quality monitoring. Platform zone with banner callout 3: knowledge graph + Profisee metadata as single source of truth; repository, vector + keyword indexes, hybrid retrieval, quality and confidence layer, persistent source links. Access column: faceted search, Q&A assistant with citations and confidence badges, APIs/MCP, subscriptions, usage feedback capture. Consumers: planning and scheduling, backcast and lookback, CI leadership reviews, and dashed future-phase decision-support agents. Dashed feedback loop returns usage signals and SME corrections to curation. Bottom band callout 5: common platform services — governance and lifecycle, quality-tier model, access control and sensitivity, audit and versioning, continuous improvement, monitoring.
 elements:
   # ---------- Title ----------
   - elementId: title
@@ -107,8 +107,8 @@ elements:
       align: [left, middle]
       lineHeight: 1.15
       text: |
-        <p><span style="font-size:8px; color:$ink;"><strong>Backcast Report SharePoint</strong></span></p>
-        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">DPO &amp; LP backcast decks (PDF / PPT)</span></p>
+        <p><span style="font-size:8px; color:$ink;"><strong>LSC Backcast Report Library</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Distribution &amp; LP backcast decks (PDF / PPT)</span></p>
 
   - elementId: src2-b
     elementType: shape
@@ -123,7 +123,7 @@ elements:
       align: [left, middle]
       lineHeight: 1.15
       text: |
-        <p><span style="font-size:8px; color:$ink;"><strong>Regional SharePoints</strong></span></p>
+        <p><span style="font-size:8px; color:$ink;"><strong>LSC Regional SharePoint sites</strong></span></p>
         <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Regional Value Optimization · Specialty Blending sites</span></p>
 
   - elementId: src3-b
@@ -187,7 +187,7 @@ elements:
       align: [left, middle]
       lineHeight: 1.15
       text: |
-        <p><span style="font-size:8px; color:$ink;"><strong>Planning DB / PIR</strong></span></p>
+        <p><span style="font-size:8px; color:$ink;"><strong>LSC Planning DB / Impact Log</strong></span></p>
         <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Structured CI data &amp; LPO reports</span></p>
 
   - elementId: src7-b
