@@ -25,3 +25,31 @@ credentials.json
 
 # Internal — never published to the public repo
 project_details.md
+
+# Generated large data
+*.parquet
+*.feather
+*.arrow
+*.avro
+*.sqlite
+*.db
+
+# Local object-storage and retrieval caches
+data/
+cache/
+artifacts/
+indexes/
+vectorstores/
+
+# Generated document/rendering outputs
+generated/
+rendered/
+*.zip
+
+# Local containers and volumes
+volumes/
+docker-data/
+
+# Hidden evaluation data
+evaluations/hidden/*
+!evaluations/hidden/.gitkeep

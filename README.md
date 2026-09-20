@@ -1,103 +1,200 @@
 # Enterprise Context Engineering
 
-**A synthetic case study**: designing an AI-ready knowledge-management (KM) capability for a
-Continuous Improvement (CI) program in a downstream process-industry company —
-**Lagos Specialty Chemicals (LSC)**, a fictional specialty chemicals and refining company.
+> A reference architecture and build workspace for creating an evidence-grounded enterprise context layer that lets people and AI agents answer: **what happened, what changed, why a decision was made, what evidence supports that explanation, and what remains uncertain.**
 
-> ⚠️ **Disclaimer**: LSC is fictitious. All company-specific data, inventories, site codes, and
-> discovery materials in this repository are synthetic, created to simulate and solve the problem
-> end to end. Public industry citations in the research analysis (e.g., CSB incident reports,
-> company 10-K filings) are real and retained verbatim, with sources linked.
+## Why this repository exists
 
----
+Enterprise knowledge is rarely held in one governed system. It is distributed across structured operational data, reports, dashboards, data models, spreadsheets, business-process artifacts, presentations, PDFs, emails, meeting notes, policies, work orders, and analytics outputs. The material may be correct in isolation but difficult to assemble into a trustworthy answer about the enterprise.
 
-## The problem
+The problem is not merely document search. It is **context engineering**:
 
-LSC runs a Value Chain Optimization (VCO) Continuous Improvement program: monthly backcasts,
-lookbacks, post-audits, and recurring CI reporting across three regions. These processes generate
-valuable findings — lessons learned, decision rationales, recommendations — but:
+- connecting business concepts, processes, assets, data products, metrics, decisions, evidence, and outcomes;
+- preserving the time and version in which an assertion was valid;
+- distinguishing direct evidence from analytical inference and unknowns;
+- retaining claim-level provenance to the source artifact, record, slide, page, query, or calculation that supports an answer; and
+- giving human users and AI agents a governed way to retrieve, reason over, and explain enterprise context.
 
-- **Knowledge lives in people's heads** — retention depends on individual experience and informal
-  follow-up
-- **Nothing is captured consistently** — no shared taxonomy, templates, or metadata for lessons,
-  decision rationales, or recommendations
-- **Nothing is discoverable** — future planners and schedulers make decisions without the benefit
-  of prior learning
+This repository develops that architecture using a realistic commercial/industrial example, including business intelligence, operations, planning, reliability, finance, and OT-adjacent information. It also provides a synthetic enterprise corpus so the approach can be built and evaluated without relying on confidential production data.
 
-The result: similar issues recur, institutional knowledge walks out the door with attrition, and
-decision quality quietly degrades.
+## Core questions
 
-LSC's CI program already has the raw ingredients of a decision-knowledge discipline — a decision
-lookback matrix, a maturity-based view of its key decision points, and defined governance modes.
-But the knowledge those processes generate spans everything from formal deliverables (backcast
-reports, lookback decks, post-audits, recurring CI reports) to informal sources (email summaries,
-meeting recordings, working notes, SME know-how) — with no shared taxonomy, no quality tiers, and
-no governance tying them together. What's needed is a capability that establishes that taxonomy,
-quality model, and governance — plus the technology direction that makes future AI safe to deploy —
-while the business keeps ownership of its context and decision logic.
+The intended system should support questions such as:
 
-## The solution concept
+- What does this KPI mean, how is it calculated, what sources feed it, and who owns it?
+- Which business process, capability, value-stream stage, asset, customer, or product does this metric describe?
+- What changed between two reporting periods, source-system versions, or organizational configurations?
+- Why was a historical operational, commercial, reliability, or planning decision made?
+- Which facts are directly supported by records, which are inferred, and what cannot be determined from the available evidence?
+- Which documents, emails, slides, work orders, historian windows, reports, and policies support the answer?
+- How does a source-system field travel through ingestion, transformation, semantic modeling, KPI calculation, and a consuming report or agent answer?
 
-An end-to-end, AI-ready knowledge architecture — **"AI proposes, humans approve"**:
+## Architectural thesis
 
-```
-CI sources (LSC Backcast Report Library, regional SharePoint sites, Teams, email,
-            OneNote, Power BI, Planning DB / Impact Log)
-      │  automated capture — connectors, batch crawl, event triggers
-      ▼
-INGEST & LAND ──► immutable raw store, lineage on every asset, sensitivity flagged at capture
-      │
-      ▼
-AI CURATION ────► traditional AI (OCR, speech-to-text, classification, dedup)
-                  + LLM drafting (template extraction, taxonomy tagging, confidence scoring,
-                    embeddings) — everything lands as a DRAFT
-      │
-      ▼
-HUMAN GATE ─────► SME review queue: accept / edit / reject
-                  nothing enters the governed store unreviewed
-      │
-      ▼
-GOVERNED PLATFORM ──► knowledge repository · metadata & taxonomy spine (MDM) ·
-                      knowledge graph (decisions ↔ lessons ↔ outcomes) ·
-                      vector + keyword indexes · quality tiers on every asset
-      │
-      ▼
-CONSUMPTION ────► faceted search · Q&A assistant with citations + confidence badges ·
-                  APIs/MCP · subscriptions & alerts
-      │
-      ▼
-DECISIONS ──────► planning & scheduling · backcast & lookback processes · CI leadership reviews
-                  (future phase, agentic: proactive lesson surfacing, gap detection)
-      │
-      └────── feedback loop: usage signals & SME corrections flow back to curation ──────┘
-```
+The platform is a **context layer**, not a replacement for operational systems, a conventional document repository, or a generic vector database. It combines five complementary layers:
 
-Cross-cutting: governance & lifecycle, quality-tier & confidence model, access control for
-market-sensitive content, audit & versioning, continuous improvement, monitoring.
-
-## Repository map
-
-| Path | Contents |
+| Layer | Responsibility |
 |---|---|
-| [`CI KM — End-to-End Solution Architecture.pptx`](CI%20KM%20—%20End-to-End%20Solution%20Architecture.pptx) | The full solution architecture, one detailed slide (PowerPoint) |
-| [`CI_KM_Architecture/`](CI_KM_Architecture/) | Conceptual architecture (editable `.pptd` source) — ingest → curate → govern → consume |
-| [`CI_KM_Solution_Architecture/`](CI_KM_Solution_Architecture/) | The detailed end-to-end architecture (editable `.pptd` source) |
-| [`Source_Name_example.txt`](Source_Name_example.txt) | Synthetic CI knowledge-source inventory: 48 sources assessed by type, domain, structure, relevance, validity, ownership, readiness for reuse, and quality tier |
-| [`EKM Discovery and Build_V2/`](EKM%20Discovery%20and%20Build_V2/) | Discovery workbooks, requirements-capture user guide, build roadmap, and an HTML prototype |
-| [`VCO_CI_KM_Analysis_html/`](VCO_CI_KM_Analysis_html/) | The research foundation: a 12-dimension evidence base on lookbacks, backcasting, RCA, and KM practice in process industries, with full citations — plus the final analysis report (md/docx/html) |
-| [`VCO_CI_KM_Analysis.agent.final/`](VCO_CI_KM_Analysis.agent.final/) | Final analysis markdown + charts |
-| [`Discovery and Build_V0_not_needed/`](Discovery%20and%20Build_V0_not_needed/) | Superseded V0 discovery materials (kept for reference) |
+| Source and evidence layer | Preserves structured records, documents, presentations, messages, reports, and OT/operational observations with source metadata |
+| Semantic layer | Defines shared business vocabulary, ontology, taxonomy, domain models, data contracts, and mappings |
+| Provenance and decision layer | Connects claims, evidence, decisions, alternatives, constraints, actors/roles, outcomes, and time validity |
+| Retrieval and reasoning layer | Retrieves relevant evidence and graph context; composes bounded, cited answers; exposes uncertainty and contradiction |
+| Governance and evaluation layer | Applies access control, source classification, quality validation, lineage, release control, and repeatable evaluation |
+
+The guiding principle is:
+
+> An answer is trustworthy only when its claims can be traced to evidence, its assumptions and inferences are visible, its temporal context is respected, and unknowns remain unknown.
+
+## Synthetic decision provenance
+
+A central capability of this repository is a **synthetic decision-provenance corpus**. Traditional synthetic data often covers transactions, master data, telemetry, alarms, work orders, or reports. It usually lacks the reasoning context that explains why people selected one option over another.
+
+This project fills that gap by creating a fictional but internally consistent enterprise history in which decisions are distributed across realistic artifacts:
+
+- email threads and approval exchanges;
+- meeting minutes and action logs;
+- PowerPoint review decks and option analyses;
+- decision memoranda, policies, and procedures;
+- planning, finance, reliability, maintenance, and operational reports;
+- CMMS/work-order, ERP, laboratory, historian, and alarm summaries; and
+- later outcome reports, exceptions, and retrospective reviews.
+
+The corpus is explicitly **synthetic**. It is not a reconstruction of real historical decisions and must never be represented as factual organizational history. Its purpose is to train, demonstrate, and evaluate the system’s ability to recover a decision rationale from fragmented evidence without inventing unsupported facts.
+
+The canonical synthetic decision ledger is the hidden truth layer. Generated artifacts intentionally reveal only portions of that truth. The agent is evaluated on whether it can assemble a grounded explanation from the evidence available to it.
+
+See [docs/synthetic-data-generation-strategy.md](docs/synthetic-data-generation-strategy.md).
 
 ## Design principles
 
-1. **Zero new manual burden** — capture is a byproduct of work people already do (connectors, not forms)
-2. **Originals are immutable** — every claim is one click from its evidence (page, slide, timestamp)
-3. **AI drafts, humans decide** — every LLM output enters as a draft; SMEs hold the gate
-4. **Trust is visible** — quality tiers and citations travel with the knowledge to the point of use
-5. **Governance before agents** — the taxonomy, quality model, and lifecycle are prerequisites that
-   make future AI/agentic capabilities safe to deploy
+- **Evidence before fluency.** Retrieval and source attribution take precedence over a polished narrative.
+- **Claim-level provenance.** Material claims point to a source artifact and precise location where practical.
+- **Time-aware context.** Distinguish authoring time, decision time, effective period, ingestion time, and superseded versus current versions.
+- **Evidence, inference, unknown.** Responses must label what is observed, inferred, contradictory, and unavailable.
+- **Semantic interoperability.** Use explicit domain vocabulary and mappings rather than embedding critical meaning only in prompts or prose.
+- **Synthetic by design.** All generated records and documents carry synthetic provenance, scenario, seed, generator, and release metadata.
+- **Separate truth from retrieval.** Hidden generation truth is used for validation and evaluation, never supplied to the answering agent in a test.
+- **Reproducibility.** Scenarios, schemas, generator versions, seeds, manifests, checksums, and validation results are versioned.
+- **Governance by construction.** Access, retention, source classification, and evaluation isolation are architecture requirements—not cleanup tasks.
 
-## Status
+## Proposed repository structure
 
-Working case study. The architecture slides are the current center of gravity; the research
-analysis provides the evidence base; the discovery workbooks show the requirements-capture method.
+The repository is evolving toward the following structure. Existing discovery and architecture materials can be retained during migration, then linked or reorganized into these durable areas.
+
+```text
+enterprise-context-engineering/
+├── README.md
+├── docs/
+│   ├── architecture/
+│   │   ├── solution-architecture.md
+│   │   ├── context-layer-architecture.md
+│   │   └── decision-provenance-model.md
+│   ├── strategy/
+│   │   ├── synthetic-data-generation-strategy.md
+│   │   └── cloudflare-r2-data-storage-and-agent-workflow.md
+│   ├── discovery/
+│   │   ├── requirements.md
+│   │   ├── use-cases.md
+│   │   └── source-inventory.md
+│   ├── governance/
+│   │   ├── provenance-policy.md
+│   │   ├── synthetic-data-policy.md
+│   │   └── access-and-evaluation-separation.md
+│   └── examples/
+│       └── source-name-example.md
+├── semantic/
+│   ├── ontology/
+│   ├── taxonomy/
+│   ├── shapes/
+│   ├── mappings/
+│   └── competency-questions/
+├── scenarios/
+│   ├── reference-data/
+│   ├── decision-ledger/
+│   ├── event-models/
+│   ├── constraint-library/
+│   └── scenario-configs/
+├── schemas/
+│   ├── decision-dossier.schema.json
+│   ├── evidence-item.schema.json
+│   ├── artifact-manifest.schema.json
+│   └── dataset-manifest.schema.json
+├── generators/
+│   ├── master-data/
+│   ├── structured-data/
+│   ├── documents/
+│   ├── ot-events/
+│   ├── graph/
+│   └── shared/
+├── pipelines/
+│   ├── generate_canonical_truth.py
+│   ├── generate_artifacts.py
+│   ├── validate_release.py
+│   ├── build_graph.py
+│   └── publish_release.py
+├── evaluations/
+│   ├── development/
+│   ├── hidden/                 # Never commit hidden truth or expose it to tuning
+│   ├── question-sets/
+│   ├── rubrics/
+│   └── results/
+├── fixtures/
+│   ├── small/
+│   └── golden/
+├── scripts/
+│   ├── r2_client.py
+│   ├── manifest.py
+│   └── checksums.py
+├── tests/
+│   ├── semantic/
+│   ├── contracts/
+│   ├── generation/
+│   └── evaluation/
+├── infra/
+│   ├── docker/
+│   ├── compose/
+│   └── ci/
+└── .env.example
+```
+
+Large generated data, document bundles, rendered artifacts, Parquet data, graph exports, and hidden evaluation truth should not be committed to Git. Store them in controlled object storage with versioned manifests. See the Cloudflare R2 workflow in [docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md).
+
+## Build flow
+
+1. **Define the semantic and scenario model** — enterprise domains, business capabilities, processes, assets, products, organizations, roles, decisions, evidence, constraints, outcomes, and temporal rules.
+2. **Create canonical synthetic truth** — deterministic reference data, events, decision ledger, and expected outcomes.
+3. **Generate evidence artifacts** — structured records, emails, reports, slides, memos, work orders, telemetry/event summaries, and outcome documents.
+4. **Validate coherence** — schema conformance, referential integrity, temporal validity, engineering/business constraints, provenance, and controlled ambiguity.
+5. **Build retrieval products** — document index, semantic graph, metadata/catalog entries, vector representations, and source-to-answer evidence links.
+6. **Generate and run evaluations** — questions, expected evidence sets, gold answers, preference pairs, and hidden truth scoring.
+7. **Publish a release** — manifest, checksums, release notes, validation results, and controlled exports.
+
+## Current materials
+
+The repository currently contains:
+
+- end-to-end solution-architecture assets;
+- discovery workbooks and build-roadmap material;
+- analytical agent outputs and charts;
+- a source-document example; and
+- early architecture/rendering assets.
+
+The proposed structure above provides the target organization for these materials as implementation moves from discovery toward repeatable semantic modeling, synthetic-data generation, retrieval, and evaluation.
+
+## Getting started
+
+1. Read the architecture and discovery materials already in the repository.
+2. Read the [synthetic data generation strategy](docs/synthetic-data-generation-strategy.md).
+3. Review the proposed ontology/domain model and competency questions.
+4. Start with a small scenario: one business unit, a limited asset/process scope, 10–20 decisions, and 4–6 artifact types per decision.
+5. Build the hidden canonical ledger first, then generate distributed evidence artifacts from it.
+6. Validate a question-answering agent against the hidden truth before scaling volume or scenario breadth.
+
+## Status and scope
+
+This is an architecture, discovery, and implementation workspace. It is not a production system, a source of real corporate history, legal advice, safety guidance, or an operational decision authority. All synthetic content must remain clearly labeled and governed as synthetic.
+
+## Related documents
+
+- [Synthetic Data Generation Strategy](docs/synthetic-data-generation-strategy.md)
+- [Cloudflare R2 Data Storage and Agent Workflow](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md)
+- [Source Name Example](docs/examples/source-name-example.md)
