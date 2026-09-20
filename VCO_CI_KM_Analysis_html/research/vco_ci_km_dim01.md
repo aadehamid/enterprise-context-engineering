@@ -338,7 +338,7 @@
 - **URL:** https://docslib.org/doc/4906967/coopr-a-common-optimization-python-repository
 - **Date:** 2018
 - **Excerpt (verbatim):** "The most popular manufacturing optimization software used today by most refineries are RPMS (Honeywell License), PIMS (Aspen License), and GRTMPS (Haverly Systems License), all based on the LP-Linear Programming principles. These allow modelling of the refinery... and aim to find the optimal solution taking into account a number of limitations introduced in LP."
-- **Context:** LP models are the operational brain of slate optimization and of VCO. MDD confirms LPs are "used... to determine the crude to purchase or how to operate the refinery given a set of operational constraints." Marathon's VCO org explicitly runs "XPIMS model runs" for "short- and mid-term commercial planning, trading strategy, and asset optimization" [^46^].
+- **Context:** LP models are the operational brain of slate optimization and of VCO. MDD confirms LPs are "used... to determine the crude to purchase or how to operate the refinery given a set of operational constraints." The anonymized VCO director posting explicitly describes LP (PIMS-class) model runs supporting "short- and mid-term commercial planning, trading strategy, and asset optimization" [^46^].
 - **Confidence:** High.
 
 ### Claim 4.11 — Refiners optimize across short/medium/long horizons: short-term variable-cost margin, medium-term flexibility/projects, long-term strategy.
@@ -605,8 +605,8 @@
 - **Source:** Large U.S. independent refiner, "Value Chain Optimization Director — South" role description (company name withheld for case-study anonymization)
 - **URL:** withheld (posting identifies the source company)
 - **Date:** 2025-10-19 (posting)
-- **Excerpt (paraphrased for anonymization):** the role is responsible for near-term planning and optimization of a regional value chain spanning two U.S. Gulf Coast refineries, connected logistics, and international markets served out of the USGC. It identifies value chain constraints and opportunities, quantifies the economic impact, and develops solutions to mitigate and capture them. It ensures alignment of operating plans and optimization decisions across organizational boundaries impacting the regional value chain, and supports XPIMS model runs for short- and mid-term commercial planning, trading strategy, and asset optimization.
-- **Context:** Primary evidence of the VCO operating model: a named function bridging Commercial and Operations, running LP (XPIMS) planning to align plans to market. This is the organizational embodiment of the study's VCO theme.
+- **Excerpt (paraphrased for anonymization):** the role is responsible for near-term planning and optimization of a regional value chain spanning two U.S. Gulf Coast refineries, connected logistics, and international markets served out of the USGC. It identifies value chain constraints and opportunities, quantifies the economic impact, and develops solutions to mitigate and capture them. It ensures alignment of operating plans and optimization decisions across organizational boundaries impacting the regional value chain, and supports LP (PIMS-class) model runs for short- and mid-term commercial planning, trading strategy, and asset optimization.
+- **Context:** Primary evidence of the VCO operating model: a named function bridging Commercial and Operations, running LP production planning to align plans to market. This is the organizational embodiment of the study's VCO theme.
 - **Confidence:** High (primary corporate posting, anonymized).
 
 ### Claim 8.2 — Supply & Trading (S&T) is the commercial link to the market; it is tightly integrated with internal VCO to capture opportunities across the wellhead-to-customer value chain.

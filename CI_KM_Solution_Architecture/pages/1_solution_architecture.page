@@ -124,7 +124,7 @@ elements:
       lineHeight: 1.15
       text: |
         <p><span style="font-size:8px; color:$ink;"><strong>Regional SharePoints</strong></span></p>
-        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">RVCO · Gasoline Blending sites</span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Regional Value Optimization · Specialty Blending sites</span></p>
 
   - elementId: src3-b
     elementType: shape
