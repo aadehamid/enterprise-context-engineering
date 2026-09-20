@@ -27,12 +27,22 @@ valuable findings — lessons learned, decision rationales, recommendations — 
 The result: similar issues recur, institutional knowledge walks out the door with attrition, and
 decision quality quietly degrades.
 
+LSC's CI program already has the raw ingredients of a decision-knowledge discipline — a decision
+lookback matrix, a maturity-based view of its key decision points, and defined governance modes.
+But the knowledge those processes generate spans everything from formal deliverables (backcast
+reports, lookback decks, post-audits, recurring CI reports) to informal sources (email summaries,
+meeting recordings, working notes, SME know-how) — with no shared taxonomy, no quality tiers, and
+no governance tying them together. What's needed is a capability that establishes that taxonomy,
+quality model, and governance — plus the technology direction that makes future AI safe to deploy —
+while the business keeps ownership of its context and decision logic.
+
 ## The solution concept
 
 An end-to-end, AI-ready knowledge architecture — **"AI proposes, humans approve"**:
 
 ```
-CI sources (SharePoint, Teams, email, OneNote, Power BI, Planning DB)
+CI sources (LSC Backcast Report Library, regional SharePoint sites, Teams, email,
+            OneNote, Power BI, Planning DB / Impact Log)
       │  automated capture — connectors, batch crawl, event triggers
       ▼
 INGEST & LAND ──► immutable raw store, lineage on every asset, sensitivity flagged at capture
