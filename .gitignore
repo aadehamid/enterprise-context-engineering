@@ -1,0 +1,27 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+Desktop.ini
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials.json
+
+~$*
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+.vscode/
+.idea/
+
+# Internal — never published to the public repo
+project_details.md

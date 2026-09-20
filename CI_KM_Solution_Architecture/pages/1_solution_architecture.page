@@ -1,0 +1,963 @@
+pageType: content
+background:
+  type: solid
+  color: "#FFFFFF"
+notes: |
+  End-to-end solution architecture for the CI KM capability, in the reference consulting format. Left: real CI knowledge sources from the inventory (Backcast Report SharePoint, regional SharePoints, email chains, MS Teams, OneNote, Planning DB/PIR, Value Opportunity Trackers) with callout 1 automated capture. Feeds column: Graph API connectors, batch crawl, event triggers, manual SME upload. Central zone: ingestion microservices, landing (immutable raw store, event log, lineage), traditional AI/ML (OCR, speech-to-text with diarization, classification, dedup, table extraction), LLM curation as pink overlay callout 2 (template extraction, taxonomy tagging, summarization, entity/relationship extraction, draft confidence scoring, embedding and chunking), SME review queue as human gate callout 4, extraction quality monitoring. Platform zone with banner callout 3: knowledge graph + Profisee metadata as single source of truth; repository, vector + keyword indexes, hybrid retrieval, quality and confidence layer, persistent source links. Access column: faceted search, Q&A assistant with citations and confidence badges, APIs/MCP, subscriptions, usage feedback capture. Consumers: planning and scheduling, backcast and lookback, CI leadership reviews, and dashed future-phase decision-support agents. Dashed feedback loop returns usage signals and SME corrections to curation. Bottom band callout 5: common platform services — governance and lifecycle, quality-tier model, access control and sensitivity, audit and versioning, continuous improvement, monitoring.
+elements:
+  # ---------- Title ----------
+  - elementId: title
+    elementType: text
+    bounds: [12, 10, 540, 24]
+    content:
+      fontSize: 17
+      bold: true
+      color: "$ink"
+      wrap: false
+      align: [left, middle]
+      text: CI Knowledge Management — End-to-End Solution Architecture
+
+  - elementId: subtitle
+    elementType: text
+    bounds: [12, 37, 540, 13]
+    content:
+      fontSize: 9
+      color: "$muted"
+      wrap: false
+      align: [left, middle]
+      text: AI proposes, humans approve — scattered CI artifacts become governed, searchable, decision-ready knowledge
+
+  # ---------- Callout 3 banner (top right) ----------
+  - elementId: banner3-box
+    elementType: shape
+    bounds: [560, 12, 708, 38]
+    shapeName: roundRect
+    adjustments: [12000]
+    fill: {type: solid, color: "$pinkFill"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+
+  - elementId: banner3-text
+    elementType: text
+    bounds: [592, 16, 668, 30]
+    content:
+      lineHeight: 1.25
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8.5px; color:$ink;"><strong>Implement a Knowledge Graph + Profisee metadata as the governed "single source of truth"</strong></span><span style="font-size:8.5px; color:$body;"> — connecting decisions ↔ lessons ↔ outcomes ↔ assets ↔ SMEs, so "have we seen this before?" is answerable</span></p>
+
+  - elementId: c3-circle
+    elementType: shape
+    bounds: [568, 22, 18, 18]
+    shapeName: ellipse
+    fill: {type: solid, color: "$ink"}
+
+  - elementId: c3-num
+    elementType: text
+    bounds: [568, 22, 18, 18]
+    content:
+      fontSize: 9.5
+      bold: true
+      color: "#FFFFFF"
+      align: [center, middle]
+      wrap: false
+      text: "3"
+
+  # ---------- Zone headers ----------
+  - elementId: zh-sources
+    elementType: text
+    bounds: [12, 54, 150, 14]
+    content: {fontSize: 10.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "CI Knowledge Sources"}
+
+  - elementId: zh-feeds
+    elementType: text
+    bounds: [172, 54, 64, 14]
+    content: {fontSize: 10.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "Feeds"}
+
+  - elementId: zh-ingest
+    elementType: text
+    bounds: [244, 54, 300, 14]
+    content: {fontSize: 10.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "Ingestion & AI Processing"}
+
+  - elementId: zh-platform
+    elementType: text
+    bounds: [738, 54, 248, 14]
+    content: {fontSize: 10.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "Governed Knowledge Platform"}
+
+  - elementId: zh-access
+    elementType: text
+    bounds: [998, 54, 108, 14]
+    content: {fontSize: 10.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "Access & Delivery"}
+
+  - elementId: zh-consumers
+    elementType: text
+    bounds: [1118, 54, 150, 14]
+    content: {fontSize: 10.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "Consumers"}
+
+  # ---------- Sources column ----------
+  - elementId: src1-b
+    elementType: shape
+    bounds: [12, 76, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src1-t
+    elementType: text
+    bounds: [20, 82, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Backcast Report SharePoint</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">DPO &amp; LP backcast decks (PDF / PPT)</span></p>
+
+  - elementId: src2-b
+    elementType: shape
+    bounds: [12, 134, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src2-t
+    elementType: text
+    bounds: [20, 140, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Regional SharePoints</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">RVCO · Gasoline Blending sites</span></p>
+
+  - elementId: src3-b
+    elementType: shape
+    bounds: [12, 192, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src3-t
+    elementType: text
+    bounds: [20, 198, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Email Chains</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Regional Optimization &amp; Forecast Review</span></p>
+
+  - elementId: src4-b
+    elementType: shape
+    bounds: [12, 250, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src4-t
+    elementType: text
+    bounds: [20, 256, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>MS Teams</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Meeting recordings &amp; transcripts</span></p>
+
+  - elementId: src5-b
+    elementType: shape
+    bounds: [12, 308, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src5-t
+    elementType: text
+    bounds: [20, 314, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>OneNote &amp; Working Notes</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Informal SME knowledge</span></p>
+
+  - elementId: src6-b
+    elementType: shape
+    bounds: [12, 366, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src6-t
+    elementType: text
+    bounds: [20, 372, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Planning DB / PIR</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Structured CI data &amp; LPO reports</span></p>
+
+  - elementId: src7-b
+    elementType: shape
+    bounds: [12, 424, 150, 50]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: src7-t
+    elementType: text
+    bounds: [20, 430, 134, 40]
+    content:
+      align: [left, middle]
+      lineHeight: 1.15
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Value Opportunity Trackers</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">SharePoint List / Excel</span></p>
+
+  # ---------- Callout 1 (bottom of sources column) ----------
+  - elementId: c1-box
+    elementType: shape
+    bounds: [12, 490, 150, 40]
+    shapeName: roundRect
+    adjustments: [12000]
+    fill: {type: solid, color: "$pinkFill"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: c1-text
+    elementType: text
+    bounds: [42, 494, 118, 32]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7px; color:$ink;"><strong>Automated capture</strong></span><span style="font-size:7px; color:$body;"> — zero new manual burden for CI teams</span></p>
+  - elementId: c1-circle
+    elementType: shape
+    bounds: [18, 500, 18, 18]
+    shapeName: ellipse
+    fill: {type: solid, color: "$ink"}
+  - elementId: c1-num
+    elementType: text
+    bounds: [18, 500, 18, 18]
+    content: {fontSize: 9.5, bold: true, color: "#FFFFFF", align: [center, middle], wrap: false, text: "1"}
+
+  # ---------- Feeds column ----------
+  - elementId: feed1-b
+    elementType: shape
+    bounds: [172, 76, 64, 48]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: feed1-t
+    elementType: text
+    bounds: [175, 79, 58, 42]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Graph API connectors"}
+
+  - elementId: feed2-b
+    elementType: shape
+    bounds: [172, 132, 64, 48]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: feed2-t
+    elementType: text
+    bounds: [175, 135, 58, 42]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Scheduled batch crawl"}
+
+  - elementId: feed3-b
+    elementType: shape
+    bounds: [172, 188, 64, 48]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: feed3-t
+    elementType: text
+    bounds: [175, 191, 58, 42]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Event triggers (new file posted)"}
+
+  - elementId: feed4-b
+    elementType: shape
+    bounds: [172, 244, 64, 48]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: feed4-t
+    elementType: text
+    bounds: [175, 247, 58, 42]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Manual SME upload"}
+
+  # mini arrows: sources→feeds, feeds→central
+  - elementId: arr-sf
+    elementType: line
+    bounds: [163, 180, 8, 8]
+    viewBox: [8, 8]
+    points: "0,4 8,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 1.5, color: "$muted"}
+  - elementId: arr-fc
+    elementType: line
+    bounds: [237, 180, 8, 8]
+    viewBox: [8, 8]
+    points: "0,4 8,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 1.5, color: "$muted"}
+
+  # ---------- Central zone: Ingestion & AI Processing ----------
+  - elementId: central-panel
+    elementType: shape
+    bounds: [244, 72, 488, 456]
+    shapeName: rect
+    fill: {type: solid, color: "$panelFill"}
+    border: {style: solid, width: 1, color: "$panelBorder"}
+
+  - elementId: lbl-ingestion
+    elementType: text
+    bounds: [252, 78, 66, 12]
+    content: {fontSize: 8, bold: true, color: "$muted", wrap: false, align: [center, middle], text: "Ingestion"}
+
+  - elementId: lbl-landing
+    elementType: text
+    bounds: [326, 78, 66, 12]
+    content: {fontSize: 8, bold: true, color: "$muted", wrap: false, align: [center, middle], text: "Landing"}
+
+  - elementId: lbl-processing
+    elementType: text
+    bounds: [404, 78, 320, 12]
+    content: {fontSize: 8, bold: true, color: "$muted", wrap: false, align: [center, middle], text: "Processing — AI-assisted curation"}
+
+  # Ingestion boxes
+  - elementId: ing1-b
+    elementType: shape
+    bounds: [252, 96, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ing1-t
+    elementType: text
+    bounds: [255, 99, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Ingestion microservices"}
+
+  - elementId: ing2-b
+    elementType: shape
+    bounds: [252, 158, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ing2-t
+    elementType: text
+    bounds: [255, 161, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Connector framework — push / pull"}
+
+  - elementId: ing3-b
+    elementType: shape
+    bounds: [252, 220, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ing3-t
+    elementType: text
+    bounds: [255, 223, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Format normalization"}
+
+  - elementId: ing4-b
+    elementType: shape
+    bounds: [252, 282, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ing4-t
+    elementType: text
+    bounds: [255, 285, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Sensitive-content flagging"}
+
+  # Landing boxes
+  - elementId: lan1-b
+    elementType: shape
+    bounds: [326, 96, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: lan1-t
+    elementType: text
+    bounds: [329, 99, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Immutable raw store"}
+
+  - elementId: lan2-b
+    elementType: shape
+    bounds: [326, 158, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: lan2-t
+    elementType: text
+    bounds: [329, 161, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Ingestion event log"}
+
+  - elementId: lan3-b
+    elementType: shape
+    bounds: [326, 220, 66, 54]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: lan3-t
+    elementType: text
+    bounds: [329, 223, 60, 48]
+    content: {fontSize: 7, color: "$body", lineHeight: 1.2, align: [center, middle], text: "Source lineage pointers"}
+
+  # Ingestion principles note
+  - elementId: princ-b
+    elementType: shape
+    bounds: [252, 352, 140, 92]
+    shapeName: rect
+    border: {style: dash, width: 1, color: "$boxBorder"}
+  - elementId: princ-t
+    elementType: text
+    bounds: [258, 358, 128, 80]
+    content:
+      lineHeight: 1.25
+      align: [left, top]
+      text: |
+        <p><span style="font-size:7px; color:$ink;"><strong>INGESTION PRINCIPLES</strong></span></p>
+        <p style="margin-top:3px"><span style="font-size:6.5px; color:$muted;">Originals immutable · lineage on every asset · sensitivity flagged at capture · no content altered before curation</span></p>
+
+  # Traditional AI box
+  - elementId: tai-b
+    elementType: shape
+    bounds: [404, 96, 150, 188]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: tai-t
+    elementType: text
+    bounds: [410, 102, 138, 176]
+    content:
+      lineHeight: 1.25
+      align: [left, top]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>TRADITIONAL AI / ML</strong></span></p>
+        <p style="margin-top:4px"><span style="font-size:7px; color:$body;">• OCR &amp; layout extraction</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Speech-to-text + speaker diarization</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Document classification</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Dedup / near-duplicate detection</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Table extraction (Excel / PDF)</span></p>
+        <p style="margin-top:6px"><span style="font-size:6.5px; color:$muted;">Deterministic, high-volume digitization of PDFs, decks, recordings &amp; notes</span></p>
+
+  # LLM curation box (pink overlay, callout 2)
+  - elementId: llm-b
+    elementType: shape
+    bounds: [562, 96, 162, 196]
+    shapeName: rect
+    fill: {type: solid, color: "$pinkFill"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: llm-t
+    elementType: text
+    bounds: [568, 102, 150, 184]
+    content:
+      lineHeight: 1.25
+      align: [left, top]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>LLM CURATION — drafts only</strong></span></p>
+        <p style="margin-top:4px"><span style="font-size:7px; color:$body;">• Template extraction — lessons, decision rationale, recommendations</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Taxonomy tagging — domain, region, knowledge type</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Summarization</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Entity &amp; relationship extraction</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Draft confidence scoring</span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">• Embedding &amp; chunking — metadata-carrying vectors</span></p>
+  - elementId: c2-circle
+    elementType: shape
+    bounds: [556, 90, 18, 18]
+    shapeName: ellipse
+    fill: {type: solid, color: "$ink"}
+  - elementId: c2-num
+    elementType: text
+    bounds: [556, 90, 18, 18]
+    content: {fontSize: 9.5, bold: true, color: "#FFFFFF", align: [center, middle], wrap: false, text: "2"}
+
+  # SME review queue (callout 4)
+  - elementId: sme-b
+    elementType: shape
+    bounds: [404, 304, 320, 64]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1.5, color: "$pinkBorder"}
+  - elementId: sme-t
+    elementType: text
+    bounds: [412, 309, 306, 54]
+    content:
+      lineHeight: 1.3
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>SME REVIEW QUEUE — the human gate</strong></span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">Accept / edit / reject · nothing enters the governed store unreviewed · SME corrections drive the accuracy loop</span></p>
+  - elementId: c4-circle
+    elementType: shape
+    bounds: [398, 298, 18, 18]
+    shapeName: ellipse
+    fill: {type: solid, color: "$ink"}
+  - elementId: c4-num
+    elementType: text
+    bounds: [398, 298, 18, 18]
+    content: {fontSize: 9.5, bold: true, color: "#FFFFFF", align: [center, middle], wrap: false, text: "4"}
+
+  # Extraction quality monitoring
+  - elementId: qm-b
+    elementType: shape
+    bounds: [404, 384, 320, 56]
+    shapeName: rect
+    border: {style: dash, width: 1, color: "$boxBorder"}
+  - elementId: qm-t
+    elementType: text
+    bounds: [412, 389, 306, 46]
+    content:
+      lineHeight: 1.3
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7px; color:$ink;"><strong>EXTRACTION QUALITY MONITORING</strong></span></p>
+        <p style="margin-top:3px"><span style="font-size:7px; color:$body;">SME edit patterns refine prompts &amp; models · low-confidence clusters routed for targeted re-review</span></p>
+
+  # processing arrows
+  - elementId: arr-il
+    elementType: line
+    bounds: [318, 185, 8, 8]
+    viewBox: [8, 8]
+    points: "0,4 8,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 1.5, color: "$muted"}
+  - elementId: arr-lt
+    elementType: line
+    bounds: [392, 176, 12, 8]
+    viewBox: [12, 8]
+    points: "0,4 12,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 1.5, color: "$muted"}
+  - elementId: arr-tl
+    elementType: line
+    bounds: [554, 180, 8, 8]
+    viewBox: [8, 8]
+    points: "0,4 8,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 1.5, color: "$muted"}
+  - elementId: arr-ls
+    elementType: line
+    bounds: [636, 292, 8, 12]
+    viewBox: [8, 12]
+    points: "4,0 4,12"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 1.5, color: "$muted"}
+
+  # ---------- Governed Knowledge Platform ----------
+  - elementId: platform-panel
+    elementType: shape
+    bounds: [738, 72, 248, 456]
+    shapeName: rect
+    fill: {type: solid, color: "$panelFill"}
+    border: {style: solid, width: 1, color: "$panelBorder"}
+
+  - elementId: pf1-b
+    elementType: shape
+    bounds: [746, 84, 232, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: pf1-t
+    elementType: text
+    bounds: [754, 89, 216, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Knowledge Repository</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:7px; color:$muted;">Raw + contextualized knowledge assets</span></p>
+
+  - elementId: pf2-b
+    elementType: shape
+    bounds: [746, 148, 232, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: pf2-t
+    elementType: text
+    bounds: [754, 153, 216, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Profisee Metadata &amp; Taxonomy</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:7px; color:$muted;">Common metadata spine — one taxonomy for every source</span></p>
+
+  - elementId: pf3-b
+    elementType: shape
+    bounds: [746, 212, 232, 64]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1.5, color: "$pinkBorder"}
+  - elementId: pf3-t
+    elementType: text
+    bounds: [754, 217, 216, 54]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Knowledge Graph</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:7px; color:$muted;">Decisions ↔ lessons ↔ outcomes ↔ assets ↔ SMEs — answers "have we seen this before?"</span></p>
+
+  - elementId: pf4-b
+    elementType: shape
+    bounds: [746, 284, 232, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: pf4-t
+    elementType: text
+    bounds: [754, 289, 216, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Vector Index + Keyword Index</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:7px; color:$muted;">Metadata-carrying embeddings for semantic search</span></p>
+
+  - elementId: pf5-b
+    elementType: shape
+    bounds: [746, 348, 232, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: pf5-t
+    elementType: text
+    bounds: [754, 353, 216, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Hybrid Retrieval &amp; Ranking</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:7px; color:$muted;">Semantic + keyword + graph traversal, fused &amp; ranked</span></p>
+
+  - elementId: pf6-b
+    elementType: shape
+    bounds: [746, 412, 232, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: pf6-t
+    elementType: text
+    bounds: [754, 417, 216, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Quality &amp; Confidence Layer</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:7px; color:$muted;">Every asset tiered High / Medium / Low — shown at consumption</span></p>
+
+  - elementId: pf-note-b
+    elementType: shape
+    bounds: [746, 476, 232, 44]
+    shapeName: rect
+    border: {style: dash, width: 1, color: "$boxBorder"}
+  - elementId: pf-note-t
+    elementType: text
+    bounds: [754, 480, 216, 36]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:6.5px; color:$muted;"><strong>Persistent source links</strong> — every asset cites its raw artifact (page / section / timestamp)</span></p>
+
+  # ---------- Access & Delivery column ----------
+  - elementId: ac1-b
+    elementType: shape
+    bounds: [998, 76, 108, 52]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ac1-t
+    elementType: text
+    bounds: [1002, 80, 100, 44]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Faceted Search UI</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Domain · region · tier</span></p>
+
+  - elementId: ac2-b
+    elementType: shape
+    bounds: [998, 136, 108, 52]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ac2-t
+    elementType: text
+    bounds: [1002, 140, 100, 44]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Q&amp;A Assistant</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Citations + confidence badges</span></p>
+
+  - elementId: ac3-b
+    elementType: shape
+    bounds: [998, 196, 108, 52]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ac3-t
+    elementType: text
+    bounds: [1002, 200, 100, 44]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>APIs / MCP</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Knowledge for other tools</span></p>
+
+  - elementId: ac4-b
+    elementType: shape
+    bounds: [998, 256, 108, 52]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ac4-t
+    elementType: text
+    bounds: [1002, 260, 100, 44]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Subscriptions &amp; Alerts</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">New lessons in your domain</span></p>
+
+  - elementId: ac5-b
+    elementType: shape
+    bounds: [998, 316, 108, 52]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: ac5-t
+    elementType: text
+    bounds: [1002, 320, 100, 44]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Usage Feedback Capture</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Ratings &amp; decision signals</span></p>
+
+  # ---------- Consumers column ----------
+  - elementId: cn1-b
+    elementType: shape
+    bounds: [1118, 76, 150, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: cn1-t
+    elementType: text
+    bounds: [1126, 81, 134, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Planning &amp; Scheduling</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">LP / DPO teams</span></p>
+
+  - elementId: cn2-b
+    elementType: shape
+    bounds: [1118, 140, 150, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: cn2-t
+    elementType: text
+    bounds: [1126, 145, 134, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Backcast &amp; Lookback</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Lessons fed into the next cycle</span></p>
+
+  - elementId: cn3-b
+    elementType: shape
+    bounds: [1118, 204, 150, 56]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$boxBorder"}
+  - elementId: cn3-t
+    elementType: text
+    bounds: [1126, 209, 134, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>CI Leadership Reviews</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Recurring reporting &amp; decisions</span></p>
+
+  - elementId: cn4-b
+    elementType: shape
+    bounds: [1118, 268, 150, 56]
+    shapeName: rect
+    border: {style: dash, width: 1, color: "$pinkBorder"}
+  - elementId: cn4-t
+    elementType: text
+    bounds: [1126, 273, 134, 46]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:8px; color:$ink;"><strong>Decision-Support Agents</strong></span><span style="font-size:6.5px; color:$pinkBorder;">  FUTURE PHASE</span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Proactive lesson surfacing · gap detection</span></p>
+
+  # ---------- Zone arrows ----------
+  - elementId: arr-cp
+    elementType: line
+    bounds: [728, 270, 14, 8]
+    viewBox: [14, 8]
+    points: "0,4 14,4"
+    curve: sharp
+    arrow: [null, stealth]
+    border: {style: solid, width: 2.5, color: "$ink"}
+  - elementId: arr-pa
+    elementType: line
+    bounds: [986, 270, 12, 8]
+    viewBox: [12, 8]
+    points: "0,4 12,4"
+    curve: sharp
+    arrow: [null, stealth]
+    border: {style: solid, width: 2.5, color: "$ink"}
+  - elementId: arr-ac
+    elementType: line
+    bounds: [1106, 270, 12, 8]
+    viewBox: [12, 8]
+    points: "0,4 12,4"
+    curve: sharp
+    arrow: [null, stealth]
+    border: {style: solid, width: 2.5, color: "$ink"}
+
+  # ---------- Feedback loop (dashed) ----------
+  - elementId: feedback-line
+    elementType: line
+    bounds: [560, 368, 490, 174]
+    viewBox: [490, 174]
+    points: "490,0 490,174 0,174 0,10"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: dash, width: 1.2, color: "$muted"}
+  - elementId: feedback-label
+    elementType: text
+    bounds: [620, 530, 380, 11]
+    content: {fontSize: 7.5, color: "$muted", wrap: false, align: [center, middle], text: "feedback — usefulness ratings · SME corrections · gap signals → re-curation"}
+
+  # ---------- Bottom band: Common Platform Services (callout 5) ----------
+  - elementId: band-panel
+    elementType: shape
+    bounds: [12, 556, 1256, 76]
+    shapeName: rect
+    fill: {type: solid, color: "$pinkFill"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: c5-circle
+    elementType: shape
+    bounds: [18, 562, 18, 18]
+    shapeName: ellipse
+    fill: {type: solid, color: "$ink"}
+  - elementId: c5-num
+    elementType: text
+    bounds: [18, 562, 18, 18]
+    content: {fontSize: 9.5, bold: true, color: "#FFFFFF", align: [center, middle], wrap: false, text: "5"}
+  - elementId: band-header
+    elementType: text
+    bounds: [44, 564, 400, 14]
+    content: {fontSize: 9.5, bold: true, color: "$ink", wrap: false, align: [left, middle], text: "Common Platform Services — built once, applied across every stage"}
+
+  - elementId: bs1-b
+    elementType: shape
+    bounds: [48, 586, 192, 38]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: bs1-t
+    elementType: text
+    bounds: [56, 590, 176, 30]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Governance &amp; Lifecycle</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">States · refresh triggers · archival · escalation</span></p>
+
+  - elementId: bs2-b
+    elementType: shape
+    bounds: [250, 586, 192, 38]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: bs2-t
+    elementType: text
+    bounds: [258, 590, 176, 30]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Quality-Tier &amp; Confidence Model</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Authoritative vs. indicative sources</span></p>
+
+  - elementId: bs3-b
+    elementType: shape
+    bounds: [452, 586, 192, 38]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: bs3-t
+    elementType: text
+    bounds: [460, 590, 176, 30]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Access Control &amp; Sensitivity</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Market-sensitive content handling</span></p>
+
+  - elementId: bs4-b
+    elementType: shape
+    bounds: [654, 586, 192, 38]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: bs4-t
+    elementType: text
+    bounds: [662, 590, 176, 30]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Audit &amp; Versioning</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Full lineage &amp; change history</span></p>
+
+  - elementId: bs5-b
+    elementType: shape
+    bounds: [856, 586, 192, 38]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: bs5-t
+    elementType: text
+    bounds: [864, 590, 176, 30]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Continuous Improvement</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">SME corrections → prompts &amp; models</span></p>
+
+  - elementId: bs6-b
+    elementType: shape
+    bounds: [1058, 586, 192, 38]
+    shapeName: rect
+    fill: {type: solid, color: "#FFFFFF"}
+    border: {style: solid, width: 1, color: "$pinkBorder"}
+  - elementId: bs6-t
+    elementType: text
+    bounds: [1066, 590, 176, 30]
+    content:
+      lineHeight: 1.2
+      align: [left, middle]
+      text: |
+        <p><span style="font-size:7.5px; color:$ink;"><strong>Monitoring &amp; Ops</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:6.5px; color:$muted;">Pipeline health &amp; ingestion status</span></p>

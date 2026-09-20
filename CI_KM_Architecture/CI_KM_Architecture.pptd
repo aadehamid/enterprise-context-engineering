@@ -1,0 +1,27 @@
+version: v2
+title: CI Knowledge Management — Conceptual End-to-End Architecture
+size: [960, 540]
+theme:
+  colors:
+    ink: "#2E3A45"
+    body: "#47525C"
+    muted: "#8C9390"
+    accent: "#C77800"
+    stageFill: "#F5F2EC"
+    stageBorder: "#DCD5C6"
+    govFill: "#FBF6EC"
+    govBorder: "#E2D2B0"
+  textStyles:
+    stageTitle:
+      fontSize: 12.5
+      color: "$ink"
+      bold: true
+    stageSub:
+      fontSize: 8.5
+      color: "$muted"
+    stageBody:
+      fontSize: 9
+      color: "$body"
+      lineHeight: 1.4
+pages:
+  - pages/1_architecture.page

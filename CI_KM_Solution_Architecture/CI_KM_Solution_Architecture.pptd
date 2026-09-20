@@ -1,0 +1,15 @@
+version: v2
+title: CI KM — End-to-End Solution Architecture
+size: [1280, 640]
+theme:
+  colors:
+    ink: "#2E3A45"
+    body: "#47525C"
+    muted: "#8C9390"
+    panelFill: "#F5F2EC"
+    panelBorder: "#DCD5C6"
+    boxBorder: "#C3CCC6"
+    pinkFill: "#F9E8EC"
+    pinkBorder: "#D9A7B4"
+pages:
+  - pages/1_solution_architecture.page

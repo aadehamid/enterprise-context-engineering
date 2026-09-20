@@ -1,0 +1,254 @@
+pageType: content
+background:
+  type: solid
+  color: "#FFFFFF"
+notes: |
+  Conceptual end-to-end architecture for the CI KM capability. Left to right: sources and ingestion (traditional AI for OCR / speech-to-text / parsing), curation and contextualization (LLM classification, extraction into capture templates, quality-tier drafting, with SME human-in-the-loop review), governed knowledge store (repository, Profisee taxonomy and metadata, keyword + vector indexes, lifecycle states), and consumption (faceted search, LLM Q&A with citations and confidence, agentic retrieval surfacing lessons into planning / scheduling / backcast workflows). Governance band applies across all stages. AI and agentic capabilities are future phases per the SOW.
+elements:
+  # ---------- Header ----------
+  - elementId: title
+    elementType: text
+    bounds: [40, 22, 620, 28]
+    content:
+      fontSize: 21
+      bold: true
+      color: "$ink"
+      wrap: false
+      align: [left, middle]
+      text: CI Knowledge Management — Conceptual Architecture
+
+  - elementId: subtitle
+    elementType: text
+    bounds: [40, 52, 620, 14]
+    content:
+      fontSize: 10
+      color: "$muted"
+      wrap: false
+      align: [left, middle]
+      text: From scattered CI artifacts to governed, reusable, AI-ready knowledge — ingest → curate → govern → consume
+
+  # ---------- Legend (AI technique tags) ----------
+  - elementId: legend
+    elementType: text
+    bounds: [676, 20, 244, 50]
+    content:
+      fontSize: 8.5
+      color: "$body"
+      lineHeight: 1.45
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;"><strong>T-AI</strong></span>  Traditional AI — OCR, speech-to-text, parsing</p>
+        <p><span style="color:$accent;"><strong>LLM</strong></span>  Large language model — extract, classify, summarize</p>
+        <p><span style="color:$accent;"><strong>AGENT</strong></span>  Agentic workflow — orchestrated, human-approved</p>
+
+  # ---------- Feedback loop (top, dashed) ----------
+  - elementId: feedback-line
+    elementType: line
+    bounds: [593, 82, 227, 16]
+    viewBox: [227, 16]
+    points: "227,16 227,3 0,3 0,16"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: dash, width: 1.2, color: "$muted"}
+
+  - elementId: feedback-label
+    elementType: text
+    bounds: [613, 66, 190, 12]
+    content:
+      fontSize: 8
+      color: "$muted"
+      wrap: false
+      align: [center, middle]
+      text: feedback — usage signals & new learnings
+
+  # ---------- Stage 1: Sources & Ingestion ----------
+  - elementId: s1-region
+    elementType: shape
+    bounds: [40, 100, 199, 244]
+    shapeName: rect
+    fill: {type: solid, color: "$stageFill"}
+    border: {style: solid, width: 1, color: "$stageBorder"}
+
+  - elementId: s1-header
+    elementType: text
+    bounds: [52, 110, 176, 32]
+    content:
+      align: [left, top]
+      text: |
+        <p><span style="font-size:12.5px; color:$ink;"><strong>1 · Sources &amp; Ingestion</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:8.5px; color:$muted;">Capture knowledge where it already lives</span></p>
+
+  - elementId: s1-body
+    elementType: text
+    bounds: [52, 148, 176, 188]
+    content:
+      style: "$stageBody"
+      align: [left, top]
+      text: |
+        <p>• Backcast / lookback decks, CI reports, post-audits (PDF, Excel)</p>
+        <p style="margin-top:4px">• Email chains, Teams transcripts, OneNote notes, meeting recordings</p>
+        <p style="margin-top:4px">• SharePoint connectors, scheduled capture, watch folders</p>
+        <p style="margin-top:8px"><span style="color:$accent;"><strong>T-AI</strong></span> OCR for scanned PDFs</p>
+        <p style="margin-top:3px"><span style="color:$accent;"><strong>T-AI</strong></span> Speech-to-text for recordings</p>
+        <p style="margin-top:3px"><span style="color:$accent;"><strong>T-AI</strong></span> Document parsing &amp; chunking</p>
+
+  # ---------- Arrow 1→2 ----------
+  - elementId: arrow12
+    elementType: line
+    bounds: [242, 216, 22, 8]
+    viewBox: [22, 8]
+    points: "0,4 22,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 2, color: "$ink"}
+
+  # ---------- Stage 2: Curation & Contextualization ----------
+  - elementId: s2-region
+    elementType: shape
+    bounds: [267, 100, 199, 244]
+    shapeName: rect
+    fill: {type: solid, color: "$stageFill"}
+    border: {style: solid, width: 1, color: "$stageBorder"}
+
+  - elementId: s2-header
+    elementType: text
+    bounds: [279, 110, 176, 32]
+    content:
+      align: [left, top]
+      text: |
+        <p><span style="font-size:12.5px; color:$ink;"><strong>2 · Curation &amp; Context</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:8.5px; color:$muted;">Turn artifacts into structured knowledge assets</span></p>
+
+  - elementId: s2-body
+    elementType: text
+    bounds: [279, 148, 176, 188]
+    content:
+      style: "$stageBody"
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;"><strong>LLM</strong></span> Classify &amp; tag by taxonomy — domain, region, knowledge type (Profisee metadata)</p>
+        <p style="margin-top:4px"><span style="color:$accent;"><strong>LLM</strong></span> Extract lessons learned, decision rationales, recommendations into capture templates</p>
+        <p style="margin-top:4px"><span style="color:$accent;"><strong>LLM</strong></span> Draft quality tier &amp; confidence score (source type, review status, recency)</p>
+        <p style="margin-top:8px"><strong>Human-in-the-loop:</strong> SME review, validation &amp; approval workflow</p>
+
+  # ---------- Arrow 2→3 ----------
+  - elementId: arrow23
+    elementType: line
+    bounds: [469, 216, 22, 8]
+    viewBox: [22, 8]
+    points: "0,4 22,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 2, color: "$ink"}
+
+  # ---------- Stage 3: Governed Knowledge Store ----------
+  - elementId: s3-region
+    elementType: shape
+    bounds: [494, 100, 199, 244]
+    shapeName: rect
+    fill: {type: solid, color: "$stageFill"}
+    border: {style: solid, width: 1, color: "$stageBorder"}
+
+  - elementId: s3-header
+    elementType: text
+    bounds: [506, 110, 176, 32]
+    content:
+      align: [left, top]
+      text: |
+        <p><span style="font-size:12.5px; color:$ink;"><strong>3 · Governed Store</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:8.5px; color:$muted;">Single trusted, searchable knowledge base</span></p>
+
+  - elementId: s3-body
+    elementType: text
+    bounds: [506, 148, 176, 188]
+    content:
+      style: "$stageBody"
+      align: [left, top]
+      text: |
+        <p>• Knowledge repository — raw artifacts + contextualized assets</p>
+        <p style="margin-top:4px">• Taxonomy &amp; metadata master data (Profisee)</p>
+        <p style="margin-top:4px">• Keyword + vector indexes for retrieval</p>
+        <p style="margin-top:4px">• Lifecycle states: draft → reviewed → approved → archived</p>
+        <p style="margin-top:4px">• Versioning &amp; audit trail</p>
+
+  # ---------- Arrow 3→4 ----------
+  - elementId: arrow34
+    elementType: line
+    bounds: [696, 216, 22, 8]
+    viewBox: [22, 8]
+    points: "0,4 22,4"
+    curve: sharp
+    arrow: [null, arrow]
+    border: {style: solid, width: 2, color: "$ink"}
+
+  # ---------- Stage 4: Consumption & Decision Support ----------
+  - elementId: s4-region
+    elementType: shape
+    bounds: [721, 100, 199, 244]
+    shapeName: rect
+    fill: {type: solid, color: "$stageFill"}
+    border: {style: solid, width: 1, color: "$stageBorder"}
+
+  - elementId: s4-header
+    elementType: text
+    bounds: [733, 110, 176, 32]
+    content:
+      align: [left, top]
+      text: |
+        <p><span style="font-size:12.5px; color:$ink;"><strong>4 · Consumption</strong></span></p>
+        <p style="margin-top:2px"><span style="font-size:8.5px; color:$muted;">Knowledge in the flow of decisions</span></p>
+
+  - elementId: s4-body
+    elementType: text
+    bounds: [733, 148, 176, 188]
+    content:
+      style: "$stageBody"
+      align: [left, top]
+      text: |
+        <p>• Faceted search &amp; browse by domain, region, quality tier</p>
+        <p style="margin-top:4px"><span style="color:$accent;"><strong>LLM</strong></span> Q&amp;A assistant — answers with citations &amp; confidence indicators</p>
+        <p style="margin-top:4px"><span style="color:$accent;"><strong>AGENT</strong></span> Retrieval agents surface relevant lessons into planning, scheduling &amp; backcast workflows — human-approved</p>
+        <p style="margin-top:8px">• Users rate usefulness; gaps routed back to curation</p>
+
+  # ---------- Governance band ----------
+  - elementId: gov-region
+    elementType: shape
+    bounds: [40, 372, 880, 76]
+    shapeName: rect
+    fill: {type: solid, color: "$govFill"}
+    border: {style: solid, width: 1, color: "$govBorder"}
+
+  - elementId: gov-header
+    elementType: text
+    bounds: [52, 380, 500, 14]
+    content:
+      fontSize: 10
+      bold: true
+      color: "$ink"
+      wrap: false
+      align: [left, middle]
+      text: GOVERNANCE &amp; LIFECYCLE — applies across all four stages
+
+  - elementId: gov-body
+    elementType: text
+    bounds: [52, 398, 856, 44]
+    content:
+      fontSize: 9
+      color: "$body"
+      lineHeight: 1.45
+      align: [left, top]
+      text: |
+        <p>Ownership roles &amp; decision rights  ·  Review &amp; approval workflows  ·  Quality-tier &amp; confidence model  ·  Refresh triggers &amp; archival rules  ·  Versioning &amp; auditability  ·  Escalation paths for disputed or outdated knowledge</p>
+        <p><strong>Principle:</strong> human review gates every AI-assisted step until governance is activated and tiers are trusted</p>
+
+  # ---------- Footer note ----------
+  - elementId: footer
+    elementType: text
+    bounds: [40, 470, 880, 40]
+    content:
+      fontSize: 8
+      color: "$muted"
+      lineHeight: 1.4
+      align: [left, top]
+      text: |
+        <p>Conceptual direction for the CI KM foundation (SOW: Knowledge Contextualization Framework &amp; Foundation Design). Platform procurement, pilots, and AI / agentic capability build are future phases — the taxonomy, quality model, and governance designed in this phase are the prerequisites that make them safe to deploy.</p>
