@@ -1,0 +1,17 @@
+{
+  "name": "EKM / VCO CI-KM static document apps",
+  "install": "python3 --version",
+  "terminals": [
+    {
+      "name": "docs-server",
+      "command": "python3 -m http.server 8080 --bind 0.0.0.0 --directory \"$PWD\"",
+      "description": "Static file server for the repository's HTML document apps. Browse the EKM Document Library at http://localhost:8080/EKM%20Discovery%20and%20Build_V2/app/index.html and the VCO CI-KM analysis report at http://localhost:8080/VCO_CI_KM_Analysis_html/app/index.html"
+    }
+  ],
+  "ports": [
+    {
+      "name": "docs-server",
+      "port": 8080
+    }
+  ]
+}
