@@ -175,7 +175,7 @@ Large generated data, document bundles, rendered artifacts, Parquet data, graph 
 
 The repository currently contains:
 
-- the [CAD-KGH project charter](docs/charter/cad-kgh-project-charter.md) (source-first P&ID → knowledge-graph hydration);
+- the [CAD-KGH v3.1 project charter](docs/charter/cad-kgh-project-charter.md) (source-first P&ID hydration; versioned extracts into the decision-provenance corpus);
 - end-to-end solution-architecture assets;
 - discovery workbooks and build-roadmap material;
 - analytical agent outputs and charts;
