@@ -62,7 +62,7 @@ The corpus is explicitly **synthetic**. It is not a reconstruction of real histo
 
 The canonical synthetic decision ledger is the hidden truth layer. Generated artifacts intentionally reveal only portions of that truth. The agent is evaluated on whether it can assemble a grounded explanation from the evidence available to it.
 
-See [docs/synthetic-data-generation-strategy.md](docs/synthetic-data-generation-strategy.md).
+See [docs/strategy/synthetic-data-generation-strategy.md](docs/strategy/synthetic-data-generation-strategy.md).
 
 ## Design principles
 
@@ -84,6 +84,9 @@ The repository is evolving toward the following structure. Existing discovery an
 enterprise-context-engineering/
 ├── README.md
 ├── docs/
+│   ├── charter/
+│   │   ├── cad-kgh-project-charter.md
+│   │   └── cad-kgh-charter-review.md
 │   ├── architecture/
 │   │   ├── solution-architecture.md
 │   │   ├── context-layer-architecture.md
@@ -172,6 +175,7 @@ Large generated data, document bundles, rendered artifacts, Parquet data, graph 
 
 The repository currently contains:
 
+- the [CAD-KGH project charter](docs/charter/cad-kgh-project-charter.md) (source-first P&ID → knowledge-graph hydration);
 - end-to-end solution-architecture assets;
 - discovery workbooks and build-roadmap material;
 - analytical agent outputs and charts;
@@ -183,11 +187,12 @@ The proposed structure above provides the target organization for these material
 ## Getting started
 
 1. Read the architecture and discovery materials already in the repository.
-2. Read the [synthetic data generation strategy](docs/synthetic-data-generation-strategy.md).
-3. Review the proposed ontology/domain model and competency questions.
-4. Start with a small scenario: one business unit, a limited asset/process scope, 10–20 decisions, and 4–6 artifact types per decision.
-5. Build the hidden canonical ledger first, then generate distributed evidence artifacts from it.
-6. Validate a question-answering agent against the hidden truth before scaling volume or scenario breadth.
+2. Read the [CAD-KGH project charter](docs/charter/cad-kgh-project-charter.md) if the workstream is engineering-source / P&ID hydration.
+3. Read the [synthetic data generation strategy](docs/strategy/synthetic-data-generation-strategy.md).
+4. Review the proposed ontology/domain model and competency questions.
+5. Start with a small scenario: one business unit, a limited asset/process scope, 10–20 decisions, and 4–6 artifact types per decision.
+6. Build the hidden canonical ledger first, then generate distributed evidence artifacts from it.
+7. Validate a question-answering agent against the hidden truth before scaling volume or scenario breadth.
 
 ## Status and scope
 
@@ -195,6 +200,9 @@ This is an architecture, discovery, and implementation workspace. It is not a pr
 
 ## Related documents
 
-- [Synthetic Data Generation Strategy](docs/synthetic-data-generation-strategy.md)
+- [CAD-KGH Project Charter](docs/charter/cad-kgh-project-charter.md)
+- [CAD-KGH Charter Import Review](docs/charter/cad-kgh-charter-review.md)
+- [Synthetic Data Generation Strategy](docs/strategy/synthetic-data-generation-strategy.md)
 - [Cloudflare R2 Data Storage and Agent Workflow](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md)
-- [Source Name Example](docs/examples/source-name-example.md)
+- [Knowledge Source Inventory](docs/discovery/knowledge-source-inventory.md)
+- [Source Name Example](docs/discovery/source-material/Source_Name_example.txt)
