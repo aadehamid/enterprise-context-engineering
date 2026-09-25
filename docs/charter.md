@@ -70,10 +70,10 @@ Decision rules:
 
 ## 4. Phases and milestones
 
-**Phase 0 — Charter and semantic foundation** (current)
-Charter approved; competency questions locked; ontology/taxonomy skeleton in
-place; synthetic-data strategy finalized.
-*Gate: maintainer approves charter and the question set.*
+**Phase 0 — Charter and semantic foundation** (in progress)
+Exit conditions: charter approved; competency questions locked;
+ontology/taxonomy skeleton in place; synthetic-data strategy finalized.
+*Gate: maintainer approves the charter and the question set.*
 
 **Phase 1 — MVP corpus**
 One business unit, limited asset/process scope, 10–20 decisions, 4–6 artifact
@@ -99,9 +99,10 @@ mechanically in CI.*
 
 - **Cloudflare R2** holds all large generated data, document bundles, and
   graph exports (see `docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md`).
-  Constraint: manifests and checksums make the store replaceable — the exit
-  plan is to re-point the storage client at any S3-compatible store, not to
-  redesign the pipeline.
+  Constraint: the storage client must go through the S3 API (boto3) so the
+  endpoint stays swappable to any S3-compatible store. The exit plan is a
+  design requirement to be validated in Phase 1 — the R2 strategy doc
+  specifies the Cloudflare endpoint, not the migration procedure.
 - **GitHub** holds source, schemas, generators, and docs. Hidden evaluation
   truth is never committed.
 - **Compute** for generation, validation, and graph builds: TBD — sized at
