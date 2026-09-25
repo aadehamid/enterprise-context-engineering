@@ -62,7 +62,7 @@ The corpus is explicitly **synthetic**. It is not a reconstruction of real histo
 
 The canonical synthetic decision ledger is the hidden truth layer. Generated artifacts intentionally reveal only portions of that truth. The agent is evaluated on whether it can assemble a grounded explanation from the evidence available to it.
 
-See [docs/synthetic-data-generation-strategy.md](docs/synthetic-data-generation-strategy.md).
+See [the synthetic data generation strategy](docs/strategy/synthetic-data-generation-strategy.md).
 
 ## Design principles
 
@@ -78,7 +78,7 @@ See [docs/synthetic-data-generation-strategy.md](docs/synthetic-data-generation-
 
 ## Proposed repository structure
 
-The repository is evolving toward the following structure. Existing discovery and architecture materials can be retained during migration, then linked or reorganized into these durable areas.
+The repository is evolving toward the following structure. Existing discovery and architecture materials can be retained during migration, then linked or reorganized into these durable areas. Paths below are targets, not current locations — some directories (e.g. `docs/examples/`, `docs/governance/`) do not exist yet.
 
 ```text
 enterprise-context-engineering/
@@ -143,7 +143,8 @@ enterprise-context-engineering/
 ├── scripts/
 │   ├── r2_client.py
 │   ├── manifest.py
-│   └── checksums.py
+│   ├── checksums.py
+│   └── check_doc_links.py
 ├── tests/
 │   ├── semantic/
 │   ├── contracts/
@@ -183,8 +184,8 @@ The proposed structure above provides the target organization for these material
 ## Getting started
 
 1. Read the architecture and discovery materials already in the repository.
-2. Read the [synthetic data generation strategy](docs/synthetic-data-generation-strategy.md).
-3. Review the proposed ontology/domain model and competency questions.
+2. Read the [synthetic data generation strategy](docs/strategy/synthetic-data-generation-strategy.md).
+3. Review the architecture and discovery materials; the ontology/domain model and competency questions are established in Phase 0 (see the [project charter](docs/charter.md)).
 4. Start with a small scenario: one business unit, a limited asset/process scope, 10–20 decisions, and 4–6 artifact types per decision.
 5. Build the hidden canonical ledger first, then generate distributed evidence artifacts from it.
 6. Validate a question-answering agent against the hidden truth before scaling volume or scenario breadth.
@@ -195,6 +196,7 @@ This is an architecture, discovery, and implementation workspace. It is not a pr
 
 ## Related documents
 
-- [Synthetic Data Generation Strategy](docs/synthetic-data-generation-strategy.md)
+- [Synthetic Data Generation Strategy](docs/strategy/synthetic-data-generation-strategy.md)
 - [Cloudflare R2 Data Storage and Agent Workflow](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md)
-- [Source Name Example](docs/examples/source-name-example.md)
+- [Source Name Example](docs/discovery/source-material/Source_Name_example.txt)
+- [Project Charter](docs/charter.md)
