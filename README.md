@@ -48,9 +48,13 @@ The guiding principle is:
 
 This repository remains a **context-layer and evaluation framework**. It is not a downstream enterprise simulation, a performance-management application, or an autonomous-agent platform. Its relationship to EPM and PPC is deliberate:
 
-- **EPM (Enterprise Performance Model)** defines what the downstream enterprise means and how performance is represented, including the Downstream Oil and Gas Ontology. ECE imports that ontology rather than forking it.
+- **EPM (Enterprise Performance Model)** defines what the downstream enterprise means and how performance is represented, including the Downstream Oil and Gas Ontology (the same artifact earlier referred to as the "LSC ontology"). **Proposed:** ECE imports that ontology rather than forking it; this is still an open decision in the [project charter](docs/charter.md) (section 7, item 3).
 - **ECE (this repository)** defines how trustworthy enterprise context is assembled, grounded, temporally bounded, traced to evidence, and evaluated.
-- **PPC (Pearland Petroleum Corporation)** is a downstream proving ground that integrates both. It consumes versioned ECE contracts; it is not an ECE runtime dependency, and ECE does not need PPC to build or validate its own artifacts.
+- **PPC (Pearland Petroleum Corporation)** is a downstream proving ground that integrates both. **Proposed:** it consumes versioned ECE contracts once they are published; it is not an ECE runtime dependency, and ECE does not need PPC to build or validate its own artifacts.
+
+**Lagos Specialty Chemicals (LSC)** is ECE's own worked-example scenario for the synthetic corpus and the knowledge-source inventory. It is a separate fictitious enterprise from PPC, which is a different downstream company.
+
+The relationships above are proposed, matching the `Status: Proposed` of the two architecture documents linked below.
 
 > EPM defines enterprise meaning. ECE defines trustworthy context. PPC proves that both can operate together.
 
@@ -173,7 +177,7 @@ enterprise-context-engineering/
 └── .env.example
 ```
 
-The two `docs/architecture/` files named `shared-technical-foundation.md` and `epm-ece-ppc-operating-model.md` already exist. The schemas under `schemas/` and the semantic assets under `semantic/` are the **versioned contracts** ECE publishes to downstream consumers such as PPC.
+Only two files in the `docs/architecture/` block above exist today: `shared-technical-foundation.md` and `epm-ece-ppc-operating-model.md`. Neither `schemas/` nor `semantic/` exists yet. They are the *intended* paths for the versioned contracts ECE would publish to downstream consumers such as PPC; nothing is published until the first versioned contract set is released (proposed for Phase 3; see charter section 7, item 5).
 
 Large generated data, document bundles, rendered artifacts, Parquet data, graph exports, and hidden evaluation truth should not be committed to Git. Store them in controlled object storage with versioned manifests. See the Cloudflare R2 workflow in [docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md).
 

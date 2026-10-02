@@ -87,7 +87,7 @@ The corpus may include synthetic content for:
 9. **Reproducibility is mandatory.** Record scenario version, generator version, seed, prompt/template version, model/provider, run ID, validation results, checksums, and release version.
 10. **Evaluation truth is isolated.** The canonical ledger and hidden answer key must not be available to a system being evaluated.
 11. **Two metadata axes.** Record source/data classification and epistemic status separately (see 5.4).
-12. **Import domain semantics; do not fork them.** Domain meaning comes from the Downstream Oil and Gas Ontology (from EPM). This strategy adds only generic context semantics.
+12. **Import domain semantics; do not fork them (proposed).** Domain meaning is proposed to come from the Downstream Oil and Gas Ontology (from EPM); this is pending charter open decision 3. This strategy adds only generic context semantics.
 
 ---
 
@@ -128,7 +128,7 @@ Enterprise / organization
 
 Each synthetic decision must be represented by an internal decision dossier. The dossier is the hidden truth layer and is not a source artifact to retrieve during a blind evaluation.
 
-The decision-dossier schema is a **versioned, reusable contract** (`schemas/decision-dossier.schema.json`). Downstream consumers such as PPC consume it by version; they do not redefine it. See 5.5.
+The JSON example below is the **draft shape** of the decision dossier. `schemas/decision-dossier.schema.json` is a *target path*, not a published contract: that file does not exist yet. The intent is to publish it as a versioned, reusable contract that downstream consumers such as PPC would consume by version rather than redefine (first versioned contract set proposed for Phase 3; see charter open decision 5 and 5.5).
 
 ```json
 {
@@ -188,7 +188,7 @@ An artifact classified `development` can contain a statement whose epistemic sta
 
 ### 5.5 Reusable contract outputs
 
-ECE publishes versioned contracts that downstream consumers can pin:
+ECE intends to publish the following as versioned contracts that downstream consumers can pin. None is published yet; the first versioned set is proposed for Phase 3 (charter open decision 5):
 
 - evidence-item schema;
 - artifact manifest;
@@ -200,7 +200,7 @@ ECE publishes versioned contracts that downstream consumers can pin:
 - hidden-truth isolation rules;
 - evaluation rubric.
 
-Downstream release manifests record the ECE contract versions they consume. Changes follow the proposal path in the [project charter](../charter.md) and the [operating model](../architecture/epm-ece-ppc-operating-model.md).
+Once contracts are published, downstream release manifests should record the ECE contract versions they consume. Changes follow the proposal path in the [project charter](../charter.md) and the [operating model](../architecture/epm-ece-ppc-operating-model.md).
 
 ---
 
@@ -348,17 +348,17 @@ Use selectively:
 
 These products can accelerate record generation but must be constrained by scenario IDs, schemas, temporal rules, and release manifests.
 
-### 8.4 Optional shared implementation components
+### 8.3 Optional shared implementation components
 
 The generation and validation pipeline may reuse platform components shared with sibling projects, as described in the [Shared Technical Foundation](../architecture/shared-technical-foundation.md). These are implementation choices, not requirements of this strategy:
 
 - **DuckDB** for processing and validating generated Parquet/JSON/CSV; **DuckLake** for structured release and evaluation history when volume justifies it. R2 remains the durable store for native documents, large datasets, and hidden truth.
-- **Apache Jena/Fuseki** for the imported Downstream Oil and Gas Ontology, ECE context semantics, RDF provenance, and SHACL validation.
+- **Apache Jena/Fuseki** for the Downstream Oil and Gas Ontology (if imported; charter open decision 3), ECE context semantics, RDF provenance, and SHACL validation.
 - **Neo4j** for the decision/evidence/context graph.
 
 Whichever components are used, hidden truth must stay isolated from every shared store available to the evaluated agent.
 
-### 8.3 LLM orchestration
+### 8.4 LLM orchestration
 
 Use structured output with schema validation for document plans, source assertions, and artifact metadata. LLMs should receive only the relevant slice of canonical scenario context necessary to generate each artifact. This reduces leakage of the full truth into a single document and improves role-appropriate realism.
 
