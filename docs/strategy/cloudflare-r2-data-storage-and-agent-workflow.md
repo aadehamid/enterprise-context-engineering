@@ -13,6 +13,8 @@
 - `README.md`
 - `docs/strategy/synthetic-data-generation-strategy.md`
 - `docs/discovery/knowledge-source-inventory.md`
+- `docs/architecture/shared-technical-foundation.md`
+- `docs/architecture/epm-ece-ppc-operating-model.md`
 - `schemas/dataset-manifest.schema.json`
 - `schemas/artifact-manifest.schema.json`
 - `schemas/decision-dossier.schema.json`
@@ -81,6 +83,12 @@ lsc-enterprise-context-engineering
 ```
 
 The actual bucket name is an environment/configuration value. Do not hard-code it into committed application code. Do not create multiple buckets for the same project unless an explicit security, region, retention, or organizational requirement justifies it.
+
+**Sibling projects such as PPC get their own separate bucket.** PPC is a downstream consumer of ECE contracts, not a tenant of this bucket. Sharing technology does not mean sharing storage:
+
+- Shared client/helper code (for example the `scripts/r2_client.py` factory) may be reused across projects.
+- Each project keeps its own bucket name, credentials, release manifests, scenario identifiers, and hidden-truth prefixes. ECE hidden truth is never placed in, or readable from, another project's bucket, and vice versa.
+- Cross-project use of ECE outputs goes through versioned, approved releases under `exports/`, not by reading ECE `cache/` or `evaluation/hidden/` prefixes directly.
 
 ### 3.2 Durable data belongs in R2
 
@@ -278,6 +286,28 @@ enterprise-context-engineering/
 | `evaluation/hidden/` | Held-out gold truth, citation sets, outcomes, and score keys | Restricted read/write; never use for training or retrieval tuning |
 | `notes/` | Human-readable run and release notes | Versioned write allowed |
 | `_probe/` | Connectivity probes | Disposable only; clean up after use |
+
+### 5.2 Prefix conventions shared across projects
+
+Sibling projects (for example PPC) may adopt the same prefix *vocabulary* so tooling and reviewers recognize the layout. The convention is shared; the buckets and contents are not.
+
+| Prefix | Meaning |
+|---|---|
+| `cache/documents/` | Native generated documents and artifact bundles |
+| `cache/evidence/` | Evidence-item and source-assertion records, where a project materializes them separately from documents. ECE does not use this prefix in the layout above today; add it only when an ECE requirement calls for it. |
+| `cache/graph/` | Graph and provenance exports |
+| `evaluation/development/` | Shareable development evaluation assets |
+| `evaluation/hidden/` | Held-out truth; restricted access, never exposed to tuning or standard retrieval |
+
+Project-specific hidden-truth prefixes and the credentials that can read them stay separate per project, even when the prefix names match.
+
+### 5.3 Analytical tools as optional consumers of R2
+
+DuckDB and DuckLake are **optional consumers** of R2, not replacements for it:
+
+- DuckDB may read Parquet/JSON/CSV directly from R2 through the S3 API for validation and analysis, preferably with read-only credentials scoped to the prefixes a job needs.
+- DuckLake may hold structured release and evaluation history (for example Scenario, Decision, Artifact, Claim, EvidenceItem, SourceAssertion, EvaluationCase, EvaluationRun, and Score tables) when volume and history justify it.
+- R2 remains the system of record and the durable store for native documents, large datasets, and hidden truth. Catalogs or tables that serve development or retrieval work must not reference `evaluation/hidden/` or restricted `cache/canonical/` objects.
 
 ---
 

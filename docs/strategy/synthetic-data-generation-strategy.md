@@ -70,6 +70,7 @@ The corpus may include synthetic content for:
 - Producing control instructions for live OT systems.
 - Using synthetic narrative as safety, legal, financial, accounting, environmental, regulatory, or engineering proof.
 - Creating vendor-identical copies of proprietary ERP, historian, CMMS, or collaboration-system schemas.
+- Downstream enterprise economics, performance models, or source-system simulation specific to a downstream consumer such as PPC. ECE supplies reusable context contracts; downstream projects own their own business simulation.
 
 ---
 
@@ -85,6 +86,8 @@ The corpus may include synthetic content for:
 8. **Domain constraints govern generation.** Numeric values, operational states, work orders, roles, approvals, and documents must comply with the scenario’s business and engineering rules.
 9. **Reproducibility is mandatory.** Record scenario version, generator version, seed, prompt/template version, model/provider, run ID, validation results, checksums, and release version.
 10. **Evaluation truth is isolated.** The canonical ledger and hidden answer key must not be available to a system being evaluated.
+11. **Two metadata axes.** Record source/data classification and epistemic status separately (see 5.4).
+12. **Import domain semantics; do not fork them (proposed).** Domain meaning is proposed to come from the Downstream Oil and Gas Ontology (from EPM); this is pending charter open decision 3. This strategy adds only generic context semantics.
 
 ---
 
@@ -125,6 +128,8 @@ Enterprise / organization
 
 Each synthetic decision must be represented by an internal decision dossier. The dossier is the hidden truth layer and is not a source artifact to retrieve during a blind evaluation.
 
+The JSON example below is the **draft shape** of the decision dossier. `schemas/decision-dossier.schema.json` is a *target path*, not a published contract: that file does not exist yet. The intent is to publish it as a versioned, reusable contract that downstream consumers such as PPC would consume by version rather than redefine (first versioned contract set proposed for Phase 3; see charter open decision 5 and 5.5).
+
 ```json
 {
   "decision_id": "DEC-2017-00841",
@@ -158,6 +163,44 @@ Each synthetic decision must be represented by an internal decision dossier. The
   "synthetic": true
 }
 ```
+
+### 5.3 Canonical enterprise truth versus the agent-visible evidence world
+
+The corpus has two distinct worlds that must never be conflated:
+
+| World | Contents | Visible to the evaluated agent |
+|---|---|---|
+| Canonical enterprise truth | Scenario, reference data, decision ledger/dossiers, expected outcomes, gold evidence sets, scoring keys | No |
+| Agent-visible evidence world | Artifacts, structured source-style records, source assertions, graph and retrieval products derived from truth | Yes, as permitted by the release |
+
+The evidence world is generated *from* the canonical truth and intentionally reveals only part of it. A fact present in canonical truth but absent from the evidence world is a legitimate unknown for the agent. Hidden evaluation truth is a restricted sibling asset path, not an input to the evaluated agent.
+
+### 5.4 Metadata axes: source classification and epistemic status
+
+Track two independent axes wherever metadata applies:
+
+| Axis | Question it answers | Example values |
+|---|---|---|
+| Source/data classification (provenance) | What is this artifact or dataset, and how may it be handled? | `synthetic`, `development`, `validation`, `hidden`; source-system profile; artifact type |
+| Epistemic status | What kind of statement is this? | direct evidence, inference, contradiction, unknown |
+
+An artifact classified `development` can contain a statement whose epistemic status is `inference`; a `hidden` gold answer can label a claim `unknown`. Neither axis implies the other, and manifests and gold answers should carry both where applicable.
+
+### 5.5 Reusable contract outputs
+
+ECE intends to publish the following as versioned contracts that downstream consumers can pin. None is published yet; the first versioned set is proposed for Phase 3 (charter open decision 5):
+
+- evidence-item schema;
+- artifact manifest;
+- source-assertion and claim model;
+- decision-dossier schema;
+- provenance model;
+- temporal-context model;
+- evidence/inference/contradiction/unknown vocabulary;
+- hidden-truth isolation rules;
+- evaluation rubric.
+
+Once contracts are published, downstream release manifests should record the ECE contract versions they consume. Changes follow the proposal path in the [project charter](../charter.md) and the [operating model](../architecture/epm-ece-ppc-operating-model.md).
 
 ---
 
@@ -247,6 +290,10 @@ Render evidence into formats that mirror enterprise information topology.
 
 No artifact should expose the complete ground-truth rationale by default.
 
+#### Controlled source-system heterogeneity
+
+Source systems should differ in realistic, *documented* ways rather than at random: identifier schemes, field naming, granularity, timestamp semantics, refresh cadence, and completeness. Generate that heterogeneity from the canonical truth through explicit source-system profiles, not by letting each artifact invent its own conventions. Every deviation must remain reconcilable to canonical truth, or be deliberately modeled as contradiction or unknown, so that validation can distinguish intended heterogeneity from generator defects. Keep profiles vendor-neutral.
+
 ### 6.5 Layer E — retrieval and evaluation products
 
 Build:
@@ -301,7 +348,17 @@ Use selectively:
 
 These products can accelerate record generation but must be constrained by scenario IDs, schemas, temporal rules, and release manifests.
 
-### 8.3 LLM orchestration
+### 8.3 Optional shared implementation components
+
+The generation and validation pipeline may reuse platform components shared with sibling projects, as described in the [Shared Technical Foundation](../architecture/shared-technical-foundation.md). These are implementation choices, not requirements of this strategy:
+
+- **DuckDB** for processing and validating generated Parquet/JSON/CSV; **DuckLake** for structured release and evaluation history when volume justifies it. R2 remains the durable store for native documents, large datasets, and hidden truth.
+- **Apache Jena/Fuseki** for the Downstream Oil and Gas Ontology (if imported; charter open decision 3), ECE context semantics, RDF provenance, and SHACL validation.
+- **Neo4j** for the decision/evidence/context graph.
+
+Whichever components are used, hidden truth must stay isolated from every shared store available to the evaluated agent.
+
+### 8.4 LLM orchestration
 
 Use structured output with schema validation for document plans, source assertions, and artifact metadata. LLMs should receive only the relevant slice of canonical scenario context necessary to generate each artifact. This reduces leakage of the full truth into a single document and improves role-appropriate realism.
 

@@ -51,7 +51,7 @@ Explicitly out of scope — enforced at every phase gate:
 | Role | Responsibility | Held by |
 |---|---|---|
 | Maintainer | Approves releases, phase-gate sign-off, breaking changes to the semantic model or schemas, evaluation rubric changes | Hamid |
-| Semantic layer owner | Ontology, taxonomy, SHACL shapes, mappings, competency questions | TBD — proposed: maintained in step with the LSC ontology work; changes follow that pipeline's governance (labels are presentation, slugs/IRIs are identity, SemVer per module) |
+| Semantic layer owner | Ontology, taxonomy, SHACL shapes, mappings, competency questions | TBD — proposed: the Downstream Oil and Gas Ontology (from EPM) is the authoritative domain ontology; this project would import it and follow its governance (labels are presentation, slugs/IRIs are identity, SemVer per module). Pending open decision 3. |
 | Corpus / generator owner | Scenario configs, decision ledger, generators, validation | TBD |
 | Retrieval / evaluation owner | Index, graph build, question sets, rubrics, hidden-truth harness | TBD |
 
@@ -61,10 +61,15 @@ Decision rules:
   approved by the area owner.
 - **Breaking changes** — URI or schema changes, removals, redefined meaning —
   require the maintainer's approval. The test for "breaking" is the same as in
-  the ontology work: do existing queries and answers stay correct?
+  the Downstream Oil and Gas Ontology: do existing queries and answers stay correct?
 - **Versioning** follows SemVer per area: major = breaking, minor = additive,
   patch = wording/fixes. Deprecate with replacement pointers; never silently
   delete.
+- **Downstream-originated proposals.** When PPC (or another downstream
+  consumer) finds a generic context-engineering gap, the path is: proposal →
+  ECE review → contract/ADR update → ECE release → downstream dependency
+  update. Downstream projects must not silently redefine generic ECE concepts.
+  Gaps in downstream business meaning go to EPM instead.
 - **Nothing merges on assumption.** PRs carry reviewer notes; review is
   explicit, not implied.
 
@@ -87,13 +92,16 @@ set, including controlled ambiguity and contradiction cases.
 Document index, semantic graph, metadata/catalog entries, vector
 representations, and source-to-answer evidence links. Agent answers carry
 claim-level citations and evidence/inference/unknown labels.
-*Gate: provenance and labeling criteria met on an expanded question set.*
+*Gate: provenance and labeling criteria met on an expanded question set, and
+hidden truth verified isolated from every store actually on the retrieval
+path, including any shared platform store.*
 
 **Phase 3 — Scale and release discipline**
 More scenarios, harder ambiguity, full release process: manifests, checksums,
-release notes, validation results, controlled exports.
+release notes, validation results, controlled exports, and versioned ECE
+contract outputs that downstream consumers can pin.
 *Gate: reproducibility and evaluation-isolation criteria enforced
-mechanically in CI.*
+mechanically in CI, including on any shared-platform stores in use.*
 
 ## 5. Dependencies and constraints
 
@@ -105,6 +113,26 @@ mechanically in CI.*
   specifies the Cloudflare endpoint, not the migration procedure.
 - **GitHub** holds source, schemas, generators, and docs. Hidden evaluation
   truth is never committed.
+- **Downstream Oil and Gas Ontology (from EPM)** — the same artifact earlier
+  called the "LSC ontology work"; Lagos Specialty Chemicals (LSC) remains this
+  repo's worked-example scenario. **Proposed dependency rule** (pending open
+  decision 3): import it, do not fork it. ECE would add only generic context
+  semantics (EvidenceItem, Artifact, SourceAssertion, Claim, Decision,
+  Constraint, Outcome, provenance).
+- **Shared technical foundation.** Reusing the platform components described
+  in `docs/architecture/shared-technical-foundation.md` is an implementation
+  choice, not a scope expansion. A technology enters ECE only when an ECE
+  requirement justifies it. Shared infrastructure must not weaken hidden-truth
+  isolation.
+- **PPC is an external proving-ground consumer, not an ECE runtime
+  dependency.** ECE builds and validates its artifacts without PPC. ECE
+  intends to publish versioned contracts (evidence-item schema, artifact
+  manifest, source-assertion/claim model, decision-dossier schema, provenance
+  and temporal-context models, evidence/inference/contradiction/unknown
+  vocabulary, hidden-truth isolation rules, evaluation rubric); once
+  published, PPC release manifests record the ECE versions they consume. None
+  of these is published yet; timing is open decision 5. See
+  `docs/architecture/epm-ece-ppc-operating-model.md`.
 - **Compute** for generation, validation, and graph builds: TBD — sized at
   the Phase 1 gate.
 - **Constraint:** every synthetic artifact carries synthetic provenance
@@ -116,19 +144,28 @@ mechanically in CI.*
 - **Hidden-truth coverage.** The ledger may under-represent ambiguity and
   contradiction, making evaluation easier than reality. Mitigation: controlled
   ambiguity cases are required in Phase 1, not optional.
-- **Semantic drift.** This repo's vocabulary diverging from the LSC ontology
-  work it draws on. Mitigation: single ownership of the semantic layer;
-  reference the ontology, don't fork it.
+- **Semantic drift.** This repo's vocabulary diverging from the Downstream Oil
+  and Gas Ontology (from EPM) it draws on. Mitigation: single ownership of the
+  semantic layer; reference the ontology, don't fork it.
 - **Evaluation gaming.** Tuning against visible questions. Mitigation: hidden
   question sets and mechanical isolation checks in the pipeline.
 - **Scope creep into agent frameworks.** The most likely failure mode for a
   project this ambitious. Mitigation: non-goals enforced at phase gates.
+- **Downstream coupling.** PPC-specific concepts or infrastructure leaking
+  into ECE core, or PPC redefining generic ECE concepts. Mitigation: the
+  proposal path in Section 3, versioned contracts, separate buckets/releases/
+  hidden-evaluation access, and a code-placement rule (code that makes sense
+  without PPC's fictional company belongs in ECE).
 
 ## 7. Open decisions (for Hamid)
 
 1. Final success-criteria targets (Section 1).
 2. Named owners for the semantic, corpus, and retrieval/evaluation areas
    (Section 3) — or hold all three with the maintainer for now.
-3. Whether the semantic layer lives here or is imported from the ontology
-   workspace (recommendation: import, don't duplicate).
+3. Whether the semantic layer lives here or is imported from the Downstream
+   Oil and Gas Ontology (from EPM) (recommendation: import, don't duplicate).
+   That ontology is the same artifact earlier called the "LSC ontology work";
+   LSC remains this repo's worked-example scenario and is separate from PPC.
 4. Timeline or "no dates, gates only" — the charter currently runs on gates.
+5. When the first versioned set of ECE contracts is published for downstream
+   use (proposed: Phase 3, with release discipline).

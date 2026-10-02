@@ -54,3 +54,24 @@
 | Production Impact Report (PIR) | Provides a high-level report on how production is impacted by a key event (reduced feedstock intake, increased production, etc.), provided to the risk team to adjust positions | Internal Tool | VCO CI | All | Structured | Internal Tool | LSC Production Impact Log (internal tool) | VCO Leads | Ad-Hoc | High | High | Needs Contextualization | High Confidence |  | Quantitative data, contextualization needed |
 | Prompt Month Distribution Review | An in-month checkpoint on the Distribution (DPO) plan vs. actuals, held before the retrospective DPO Backcast Report | Recurring CI Report | VCO CI | All | Semi-Structured | Excel/Summary Note | MS Teams | VCO CI Manager | Monthly | High | Medium | Needs Validation | Medium Confidence |  | Completeness of capturing discussion, accuracy validation needed |
 | Prompt Month Post Audit | An in-month audit of plan-vs-actual accuracy, feeding into the broader CI post-audit process | Recurring CI Report | VCO CI | All | Semi-Structured | Excel/Summary Note | MS Teams | VCO CI Manager | Monthly | High | Medium | Needs Validation | Medium Confidence |  |  |
+
+## Proposed additional fields
+
+> **Added after conversion.** This section is not part of `Source_Name_example.txt`. It defines fields the table above does not yet carry, so inventory entries can be mapped onto the synthetic-corpus artifact manifest and evidence model. The fields are not yet populated per row; populate them when the inventory is next revised, preferably in the source file first so the two stay in sync.
+
+| Field | Definition | Format / allowed values | Related existing columns |
+|---|---|---|---|
+| Authored time | When the content was written, per version | ISO 8601 timestamp | None (`Frequency` is cadence, not authoring time) |
+| Effective time | Date or interval during which the content applies | ISO 8601 date or interval | None |
+| Publication / availability time | When the content became available to its intended audience; evidence cannot be cited as known before this point | ISO 8601 timestamp | None |
+| Ingestion time | When the content was captured into the context layer (for synthetic artifacts, the generation time) | ISO 8601 timestamp | None |
+| Superseded / current status | Whether this is the current version, with a pointer to its successor when superseded | `current`, `superseded`, `withdrawn`, plus successor reference | `Validity / Accuracy` (different concept: correctness, not currency) |
+| Evidence authority / role | What weight and role the source carries as evidence | For example `system_of_record`, `formal_deliverable`, `recommendation`, `discussion`, `derived_summary`, `outcome_review` (vocabulary to be agreed) | `Knowledge Type`, `Source System` |
+| Expected locator type | How a claim from this source is cited precisely | `page`, `slide`, `message_id`, `paragraph`, `field_name`, `tag_time_window`, `agenda_item`, `row_key` | `Format`, `Structure` |
+| Retrieval eligibility | Whether the source may be indexed and retrieved as evidence, and under what caveats | `eligible`, `eligible_with_caveats`, `not_eligible` | `Readiness for Reuse`, `Recommended Quality Tier` |
+| Hidden / development classification | Evaluation-access class of the corresponding synthetic artifact or truth | `development`, `validation`, `hidden` (all content also carries the `synthetic` classification) | None |
+
+Notes:
+
+- *Source/data classification* (the last field and the `synthetic` label) and *epistemic status* (direct evidence, inference, contradiction, unknown) are separate axes; see the README design principles. Epistemic status is a property of statements and answers, not of inventory rows, so it is deliberately not a column here.
+- The four time fields are distinct on purpose. A document authored in March, effective from April, published in May, and ingested in June supports different answers depending on the question's as-of time.
