@@ -44,6 +44,18 @@ The guiding principle is:
 
 > An answer is trustworthy only when its claims can be traced to evidence, its assumptions and inferences are visible, its temporal context is respected, and unknowns remain unknown.
 
+## Position relative to EPM and PPC
+
+This repository remains a **context-layer and evaluation framework**. It is not a downstream enterprise simulation, a performance-management application, or an autonomous-agent platform. Its relationship to EPM and PPC is deliberate:
+
+- **EPM (Enterprise Performance Model)** defines what the downstream enterprise means and how performance is represented, including the Downstream Oil and Gas Ontology. ECE imports that ontology rather than forking it.
+- **ECE (this repository)** defines how trustworthy enterprise context is assembled, grounded, temporally bounded, traced to evidence, and evaluated.
+- **PPC (Pearland Petroleum Corporation)** is a downstream proving ground that integrates both. It consumes versioned ECE contracts; it is not an ECE runtime dependency, and ECE does not need PPC to build or validate its own artifacts.
+
+> EPM defines enterprise meaning. ECE defines trustworthy context. PPC proves that both can operate together.
+
+Technology is reused across these efforts, but project truth is not: **share platform patterns and reusable code; keep project truth, semantics, releases, and access boundaries separate.** See the [Shared Technical Foundation](docs/architecture/shared-technical-foundation.md) and the [EPM–ECE–PPC Operating Model](docs/architecture/epm-ece-ppc-operating-model.md).
+
 ## Synthetic decision provenance
 
 A central capability of this repository is a **synthetic decision-provenance corpus**. Traditional synthetic data often covers transactions, master data, telemetry, alarms, work orders, or reports. It usually lacks the reasoning context that explains why people selected one option over another.
@@ -75,6 +87,8 @@ See [the synthetic data generation strategy](docs/strategy/synthetic-data-genera
 - **Separate truth from retrieval.** Hidden generation truth is used for validation and evaluation, never supplied to the answering agent in a test.
 - **Reproducibility.** Scenarios, schemas, generator versions, seeds, manifests, checksums, and validation results are versioned.
 - **Governance by construction.** Access, retention, source classification, and evaluation isolation are architecture requirements—not cleanup tasks.
+- **Two axes, not one.** Track *source/data classification* (what an artifact is and how it may be handled: synthetic, development, validation, hidden; source-system profile) separately from *epistemic status* (what a statement is: direct evidence, inference, contradiction, unknown). Neither implies the other.
+- **Share patterns, not project truth.** Reuse technology, helper code, and deployment patterns freely; never share one project's data bucket, hidden truth, release namespace, or domain configuration.
 
 ## Proposed repository structure
 
@@ -85,6 +99,8 @@ enterprise-context-engineering/
 ├── README.md
 ├── docs/
 │   ├── architecture/
+│   │   ├── shared-technical-foundation.md
+│   │   ├── epm-ece-ppc-operating-model.md
 │   │   ├── solution-architecture.md
 │   │   ├── context-layer-architecture.md
 │   │   └── decision-provenance-model.md
@@ -157,6 +173,8 @@ enterprise-context-engineering/
 └── .env.example
 ```
 
+The two `docs/architecture/` files named `shared-technical-foundation.md` and `epm-ece-ppc-operating-model.md` already exist. The schemas under `schemas/` and the semantic assets under `semantic/` are the **versioned contracts** ECE publishes to downstream consumers such as PPC.
+
 Large generated data, document bundles, rendered artifacts, Parquet data, graph exports, and hidden evaluation truth should not be committed to Git. Store them in controlled object storage with versioned manifests. See the Cloudflare R2 workflow in [docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md).
 
 ## Build flow
@@ -198,5 +216,7 @@ This is an architecture, discovery, and implementation workspace. It is not a pr
 
 - [Synthetic Data Generation Strategy](docs/strategy/synthetic-data-generation-strategy.md)
 - [Cloudflare R2 Data Storage and Agent Workflow](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md)
+- [Shared Technical Foundation](docs/architecture/shared-technical-foundation.md) — which technologies ECE reuses, and which it does not
+- [EPM–ECE–PPC Operating Model](docs/architecture/epm-ece-ppc-operating-model.md) — ownership, dependency direction, and versioned contracts
 - [Source Name Example](docs/discovery/source-material/Source_Name_example.txt)
 - [Project Charter](docs/charter.md)
