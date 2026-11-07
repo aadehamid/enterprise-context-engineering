@@ -23,6 +23,14 @@ credentials.json
 .vscode/
 .idea/
 
+# Local coding-agent integrations and Entire data
+/.claude/
+/.codex/
+/.cursor/
+/.entire/
+/.opencode/
+/.pi/
+
 # Internal — never published to the public repo
 project_details.md
 
