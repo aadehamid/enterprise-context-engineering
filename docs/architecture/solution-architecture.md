@@ -44,7 +44,7 @@ The supplied CI examples are source categories to model, not assertions that ECE
 | Backcasting | LP Backcast, X/PPIMS, regional analyses; DPO Backcast reports and notes |
 | Lookbacks and audits | BWJA Lookback/Jones Act, Gasoline Blending, PMPA post audit, PMDR distribution review |
 | Trackers and reports | Value Opp. Tracker, RVCO Value Add, LPO Reports, Weekly Summary |
-| SME and working knowledge | Meeting Notes, collaboration calls, supplied SME rationale |
+| SME and working knowledge | Meeting Notes, collaboration calls, SME Input (undocumented rationale) |
 
 ## Data and approval boundaries
 
