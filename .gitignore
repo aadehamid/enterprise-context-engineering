@@ -54,6 +54,10 @@ generated/
 rendered/
 *.zip
 
+# Presentation-deck working state and exports
+working files/
+docs/architecture/source/**/*.pptx
+
 # Local containers and volumes
 volumes/
 docker-data/
