@@ -1,0 +1,17 @@
+are we all set up?
+
+---
+
+dagger have access to all repo
+
+---
+
+if everything looks good can you merge and clean up
+
+---
+
+why are those not commited?
+
+---
+
+can you add them to .gitignore
