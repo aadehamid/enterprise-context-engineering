@@ -1,0 +1,24 @@
+"""
+Checks for the enterprise-context-engineering repository.
+"""
+type EceDev {
+  let source: Directory!
+
+  new(ws: Workspace!) {
+    self.source = ws.directory(".", exclude: [".git", ".dagger", "dagger.toml", "dagger.lock"])
+    self
+  }
+
+  """
+  Verify that every relative markdown doc link resolves to a real file.
+  """
+  pub docLinks: Void @check {
+    container
+      .from("python:3.12-alpine")
+      .withDirectory("/src", source)
+      .withWorkdir("/src")
+      .withExec(["python3", "scripts/check_doc_links.py"])
+      .sync
+    null
+  }
+}
