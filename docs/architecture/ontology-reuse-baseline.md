@@ -1,7 +1,7 @@
 # Ontology reuse baseline — Enterprise Context Engineering
 
 **Status:** Proposed (survey result, 2026-11-08; not a recorded decision)
-**Purpose:** Propose the publicly available ontologies ECE would import or borrow patterns from when the semantic layer is constructed, so the import set is proposed once and confirmed by review before construction starts. Until the owner records approval, every set below is a candidate, not a dependency.
+**Purpose:** Propose the publicly available ontologies ECE would import or borrow patterns from when the semantic layer is constructed, so the import set is proposed once and confirmed by review before construction starts. Section 11 entries keep their existing status; only the newly proposed imports below stay candidates, not dependencies, until the owner records approval.
 **Related:** [Shared Technical Foundation](shared-technical-foundation.md) section 11 fixes the *formats* (SKOS, RDF-star, SHACL, SSSOM) and already names PROV-O, OWL-Time, DCAT and DCMI Terms as governing standards. This document re-proposes and verifies those four as concrete imports, and proposes the public vocabularies beyond them. Charter section 7, item 3 leaves the EPM Downstream Oil and Gas Ontology import as an open decision; the oil-and-gas section below feeds that decision.
 
 Method: a web survey on 2026-11-08 of candidate ontologies across ten coverage areas (upper structure, provenance, time, data products and units, industrial/OT, events, organization, decisions, downstream oil and gas, documents). Licenses and activity dates were read from the GitHub API, W3C TR pages and the ETSI portal on that date, not from search snippets, except where marked. Re-verify each entry before an actual import; activity dates below say "pushed" as of 2026-11-08.
@@ -10,7 +10,7 @@ Method: a web survey on 2026-11-08 of candidate ontologies across ten coverage a
 
 ### 1a. Already named by the section 11 baseline
 
-These four appear in section 11's standards table today; this document re-proposes them as concrete imports and adds license and activity verification (all checked 2026-11-08):
+These five appear in section 11's standards table today; this document re-proposes them as concrete imports and adds license and activity verification (all checked 2026-11-08):
 
 | Ontology | ECE layer | License | Maturity | Use in ECE |
 |---|---|---|---|---|
@@ -57,7 +57,7 @@ Section 11's four named vocabularies carry its existing status already; the four
 
 | Candidate | Reason |
 |---|---|
-| [OM (Ontology of units of Measure)](http://www.ontology-of-units-of-measure.org/resource/om-2) | Host unreachable during the survey; QUDT covers the need with better tooling. |
+| OM (Ontology of units of Measure) | Host unreachable during the survey, and its domain now fails TLS; QUDT covers the need with better tooling. |
 | [ODPS](https://opendataproducts.org/) / [Data Product Specification](https://github.com/agile-lab-dev/Data-Product-Specification) | YAML/JSON specifications, not vocabularies. DPROD is the RDF option for data products. |
 | [Accenture OSDU-Ontology](https://github.com/Accenture/OSDU-Ontology) | Apache-2.0, pushed 2024-12, but upstream/subsurface-biased and a single-vendor artifact (38 stars). Reference for source-system alignment, not an import. |
 | [OpenEnergy Ontology](https://github.com/OpenEnergyPlatform/ontology) | CC0 and very active, but energy-policy focused; tangential to downstream refining. |
