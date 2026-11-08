@@ -18,7 +18,7 @@ This is the current proposed architecture view. The earlier CI KM PowerPoint dec
 
 ## What the baseline adds
 
-The comparison covers the supplied "KM Baseline Architecture Direction" image and comprehensive overview. The earlier [CI KM solution source](source/ci-km-solution-architecture/pages/1_solution_architecture.page) already includes extraction, draft curation, human review, hybrid retrieval, citations, alerts and governance. The additions below make the missing boundaries explicit.
+The comparison covers the supplied "KM Baseline Architecture Direction" image and comprehensive overview. The [retained reference](source/km-baseline-reference.md) links the original image and quotes the overview's promotion, sensitivity and live-source rules. The earlier [CI KM solution source](source/ci-km-solution-architecture/pages/1_solution_architecture.page) already includes extraction, draft curation, human review, hybrid retrieval, citations, alerts and governance. The additions below make the missing boundaries explicit.
 
 | Baseline capability | Earlier diagram | Updated ECE treatment |
 |---|---|---|
@@ -37,7 +37,7 @@ The comparison covers the supplied "KM Baseline Architecture Direction" image an
 | Personas | Planning, backcast and leadership groups already appear. | Include short-term planners, commercial schedulers, backcasters, CI managers and digital platform owners. Roles are examples, not ECE account assignments. |
 | Governance | Lifecycle, quality, sensitivity, audit and feedback already appear. | Connect these controls to promotion, serving, revocation, retention and isolated evaluation. |
 
-The supplied CI examples are source categories to model, not assertions that ECE has connected those systems:
+The supplied CI examples are source categories to model, not assertions that ECE has connected those systems. These names follow the supplied image and overview; they do not rename entries in the existing [knowledge-source inventory](../discovery/knowledge-source-inventory.md).
 
 | Category | Examples supplied with the baseline |
 |---|---|
