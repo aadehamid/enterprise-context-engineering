@@ -4,6 +4,8 @@
 **Purpose:** Define which technical components Enterprise Context Engineering (ECE) can reuse from the PPC architecture without changing ECE into a downstream application platform.  
 **Related:** [EPM–ECE–PPC Operating Model](epm-ece-ppc-operating-model.md) defines ownership, dependency direction and versioned contracts.
 
+The [ECE knowledge platform diagram](solution-architecture.md) applies this foundation to the supplied KM baseline. It adds explicit capture, sensitivity, draft-review, promotion and live-query boundaries. Its component mapping identifies open-source candidates for gaps, including an S3-compatible alternative to hosted R2. These additions are proposed; no service deployment or storage migration is implied.
+
 ## 1. Boundary
 
 ECE remains a **context-layer and evaluation framework**.
