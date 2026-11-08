@@ -1,0 +1,64 @@
+given what you know of this project please can you share a prompt that I can ue to search for publickly vilable ontology that I may be able to use in this project
+
+---
+
+please use tiny to search Survey publicly available ontologies that the Enterprise Context Engineering (ECE) project could import or reuse, rather than a survey of
+ ontology-building tooling.
+
+   ## Context
+
+   ECE builds an enterprise context layer over a synthetic downstream energy example (refining, chemicals, BI, operations, reliability,
+ finance). Its semantic layer needs: shared business vocabulary, an ontology, taxonomy, domain models, SHACL shapes, and mappings. Its
+ provenance layer needs claim-level provenance to source artifacts, evidence vs. inference vs. unknown labels, decisions/actors/outcomes, and
+ temporal validity. A separate project (EPM) already holds a Downstream Oil and Gas Ontology; whether ECE imports it or rebuilds on public
+ standards is an open decision, so this survey should inform that.
+
+   We prefer the W3C stack: RDF, OWL, SKOS, SHACL, PROV-O, DCAT. Graph storage may be Neo4j, so note anything relevant to
+ RDF-in-property-graphs if you see it.
+
+   ## Coverage areas
+
+   Find candidate ontologies or vocabularies for each area. Treat the seed examples as starting points to verify and extend, not the whole
+ answer:
+
+   1. Upper/core structure: BFO, DOLCE/UFO, DOL.
+   2. Provenance and epistemic status: PROV-O and extensions.
+   3. Time and validity: OWL-TIME, temporal interval vocabularies.
+   4. Data products, metrics, units: DCAT 3, QUDT, OM, any data-product/data-contract vocabularies (e.g. DPSP).
+   5. Industrial process, asset, and OT: ISO 15926, IOF core, SAREF and SAREF4INDUSTRY, SSN/SOSA.
+   6. Events and traceability: EPCIS 2.0 or similar event vocabularies.
+   7. Organization, roles, activities: ORG, schema.org/Action, similar.
+   8. Decisions, goals, constraints: ontologies for decision-making (e.g. CCO decision ontology, other published attempts).
+   9. Downstream oil and gas domain: OSDU standards, ISO 15926 implementations, any published oil/gas or petrochemical ontologies in
+ literature or GitHub.
+   10. Documents and records: vocabularies for documents, emails, reports, and their metadata.
+
+   ## For each candidate, record
+
+   - Name, canonical IRI or repository URL, and whether it resolves or is downloadable.
+   - Scope in one sentence.
+   - What ECE layer(s) it serves (semantic / provenance / retrieval / governance).
+   - License, governing body, and maintenance status (last release or activity, with date).
+   - Maturity: W3C Recommendation, ISO standard, community draft, academic paper, or abandoned repo.
+   - Size and weight: how heavy it is to import, and whether it pulls in dependencies.
+   - Mapping burden from ECE's concepts, and anything that conflicts with ECE principles (e.g. no temporal dimension, no provenance).
+
+   ## Output
+
+   1. A shortlist table: one row per recommended ontology, with the fields above, ordered by usefulness to ECE.
+   2. A rejected-or-marginal table for candidates that looked relevant but fail on license, maintenance, weight, or fit, each with a one-line
+ reason.
+   3. A gaps list: ECE needs no public ontology covers, which likely stay bespoke.
+   4. For the oil-and-gas area specifically, a paragraph on how public standards (ISO 15926, OSDU, SAREF) compare with importing EPM's
+ Downstream Oil and Gas Ontology, so we can inform that open decision.
+
+   ## Verification rules
+
+   - Verify each candidate by opening its actual specification page or repository, not by summary text alone.
+   - Confirm the license from a primary source for anything that makes the shortlist.
+   - State clearly when evidence is thin or the ontology is cited only in papers with no maintained artifact.
+   - Do not invent IRIs. If you cannot confirm a resource exists at a stable URL, say so.
+
+---
+
+can you document the one to adapt in this repo so that when we start constructing the ontology we can leverage them
