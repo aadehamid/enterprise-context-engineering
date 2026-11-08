@@ -1,0 +1,129 @@
+please can you review the architectural diagram and update the one for this repo if anything is misiing that is on the attached. Note that we dont have to use tools listed on the image. We will stick with open source equivalent
+
+[Image #1]
+
+---
+
+use clare writing, way of working
+
+---
+
+architecture only
+
+---
+
+here are additional information
+
+
+KM Baseline Architecture Direction – Comprehensive Overview
+
+The Governed Knowledge Platform is built on Databricks as the core backbone across the ingestion, contextualization, and storage layers, complemented by specialized enterprise tools for graph modeling, data cataloging, event streaming, agentic retrieval, and security governance. The platform captures unstructured and structured artifacts across the enterprise, transforms them into governed, high-trust knowledge through AI extraction and human-in-the-loop review, and delivers actionable insights to operational personas.
+
+----------
+1. Source Systems & Capture Gateway
+
+Knowledge enters the platform from two primary source categories—Enterprise Source Systems and Continuous Improvement (CI) Processes & SME Knowledge—routed through a unified Capture Gateway utilizing automated connectors, mailbox capture, and manual upload interfaces.
+
+Enterprise Source Systems
+- Documents (Reports & Trackers): Formal operational documents, post-audit reports, and action trackers.
+- Email (Status Updates): Operational communications, shift/status updates, and emailed attachments.
+- Meetings (Transcripts): Audio, video, and transcript records from Microsoft Teams and collaboration calls.
+- Notes (Working Notes): Day-to-day operational and analyst working notes.
+- Planning Systems (Model Outputs): Point-in-time planning snapshots (ingested via batch) as well as live model outputs (queried direct-to-source).
+- BI & Dashboards (Plan vs. Actual): Operational performance metrics and plan-vs.-actual comparisons queried live from source systems.
+CI Processes & SME Knowledge
+- Backcasting: Captures regional and operational backcast analyses, including LP Backcast (X/PPIMS · 3 regions) and DPO Backcast (Reports + notes).
+- Lookbacks & Audits: Captures post-event evaluations and regulatory/operational reviews, including BWJA Lookback (Jones Act), Gasoline Blending (Lookback), PMPA (Post audit), and PMDR (Distribution review).
+- Trackers & Reports: Captures ongoing value and performance tracking, including the Value Opp. Tracker (Actions & opps.), RVCO Value Add (Commercial), LPO Reports (Planning outputs), and Weekly Summary (VCO performance).
+- SME & Working Knowledge: Captures tacit domain expertise through Meeting Notes (Teams, collab calls) and direct SME Input (Undocumented rationale).
+----------
+2. Ingestion Layer (Event-Driven Capture & Alerting + Batch Ingestion)
+
+Once artifacts pass through the Capture Gateway, ingestion is handled via two complementary patterns: real-time Event-Driven Capture & Alerting and scheduled Batch Ingestion.
+
+Event-Driven Capture & Alerting (Synchronous / Real-Time)
+
+Powered by Event Hubs / Kafka, this pathway handles time-sensitive artifacts and communications as they occur, ensuring immediate triage, sensitivity screening, and proactive user notification:
+
+- Event Trigger (New File Posted): Automatically detects real-time events across connected repositories and source systems (e.g., when a new backcast report, lookback audit, or tracker update is posted).
+- Mail Capture (Mailbox Feed): Continuously monitors designated mailbox feeds to capture incoming status updates, operational emails, and attachments as they arrive.
+- Triage (Classify & Route): Evaluates incoming event payloads and email feeds to perform initial classification and determine the appropriate downstream processing and routing path.
+- Sensitivity (Hold for Review): Screens incoming artifacts for sensitive, confidential, or restricted content. Items flagged for sensitivity are placed on hold for administrative or SME review before broader platform exposure.
+- Alert Rules (By Context): Evaluates cleared events against context-specific business rules (e.g., matching specific domains, sites, assets, or high-priority CI categories).
+- Alerts (To Users): Dispatches targeted, real-time notifications to relevant personas when critical updates or new learnings pertinent to their operational scope are captured.
+Batch Ingestion (Scheduled Pull $\rightarrow$ Raw / Bronze)
+
+Orchestrated natively within Databricks, this pathway executes scheduled, asynchronous pulls (and handles manual uploads) to land unmodified source artifacts directly into the Raw / Bronze zone of the Medallion Architecture:
+
+- Planning Data (Snapshots $\rightarrow$ Bronze): Periodically extracts point-in-time snapshots from Planning Systems into the Bronze layer to preserve historical planning context alongside CI learnings.
+- Repository Sync (Reports & Trackers): Performs scheduled synchronization with enterprise document repositories to ingest formal documents, Backcasting outputs, Lookbacks & Audits, and Trackers & Reports.
+- Email & Meetings (Emails, Transcripts): Batch-ingests archived status emails as well as recordings and transcripts from Meetings.
+- Notes (Working Notes): Pulls structured and unstructured working notes captured during daily operations and SME & Working Knowledge sessions.
+- Document Ingest (Manual Expert Upload): Provides a dedicated intake pathway for VCO CI Backcasters and SMEs to manually upload ad-hoc artifacts, standalone reports, and undocumented rationale directly into the Bronze zone.
+----------
+3. Contextualization Layer (AI Extraction + Expert Review)
+
+The Contextualization Layer within Databricks transforms unstructured and semi-structured raw artifacts from the Raw / Bronze zone into structured, searchable, and governed knowledge in the Refined / Silver zone. It combines a foundational semantic framework with a two-stage AI/ML and LLM pipeline, followed by human-in-the-loop expert validation.
+
+Foundational Semantic Framework: Ontology, Taxonomy & Standards
+
+Governed via Microsoft Purview and Cognite Data Fusion (and subject to periodic versioning and review), this framework provides the rules and schema that guide AI extraction and tagging:
+
+- Ontology: Defines the core entities, relationships, and constraints across the knowledge ecosystem (Decision · Lesson · Outcome · Asset · SME), which are later instantiated in the Neo4j Knowledge Graph.
+- Taxonomy: Establishes standardized classification hierarchies across domain, site, and category.
+- Standards: Enforces consistent naming conventions and templates across extracted knowledge artifacts.
+Stage 1: Content Processing — Bronze $\rightarrow$ Silver (Traditional AI/ML)
+
+Powered by AI Foundry on Databricks, raw source artifacts ingested into the Bronze layer first undergo automated parsing, cleansing, and structural preparation:
+
+- OCR & Layout Extraction: Digitizes scanned documents, PDFs, and complex visual layouts into machine-readable text while preserving structural hierarchy.
+- Speech-to-Text: Transcribes audio and video recordings from meetings, collaboration calls, and working sessions into text transcripts.
+- Table Extraction & Deduplication: Identifies and extracts structured tabular data embedded within reports, trackers, and lookbacks while removing duplicate records or redundant snapshots.
+- Chunking & Classification: Segments processed content into semantically meaningful chunks and performs initial document-level classification for downstream LLM processing and vector indexing.
+Stage 2: Contextualization Builder — Silver (LLM, Drafts Only)
+
+Managed and tracked via MLflow on Databricks, Large Language Models (LLMs) analyze the processed chunks against the governed Ontology and Taxonomy to generate structured draft knowledge records:
+
+- Lesson & Rationale Extraction: Synthesizes explicit lessons learned, root causes, and undocumented decision rationale from CI processes and SME inputs.
+- Taxonomy Tagging: Automatically applies standardized metadata tags (domain, site, category) to each extracted knowledge record to enable faceted filtering and retrieval.
+- Quality & Confidence Scoring: Evaluates the completeness, clarity, and extraction certainty of each record, assigning a quality tier (High / Medium / Low).
+- Entity & Relationship Mapping: Identifies key domain entities and maps their interconnections (Decision · Lesson · Outcome · Asset · SME) to prepare records for graph instantiation.
+Human-in-the-Loop Expert Review (Silver $\rightarrow$ Gold Promotion)
+- Because the Contextualization Builder outputs drafts only, all newly contextualized records enter the Refined / Silver zone in a Draft lifecycle state.
+- VCO CI Backcasters and VCO CI Managers (supported by low-confidence reporting in the Retrieval & Delivery layer) review, refine, and validate the extracted lessons, tags, and entity mappings.
+- Once approved by a Manager or SME, the record's lifecycle state transitions from Draft $\rightarrow$ Approved, promoting it into the Core / Gold zone and instantiating its relationships in the Knowledge Graph.
+----------
+4. Storage Layer (Medallion Architecture)
+
+The storage layer within the Governed Knowledge Platform (built on Databricks and Delta Lake) stores knowledge extracted from enterprise source systems and CI processes across progressive tiers of quality, contextualization, and trust:
+
+- Raw / Bronze (Artifacts as-is): Stores unmodified source artifacts ingested via scheduled batch pulls or manual expert uploads. This includes documents (reports and trackers), emails (status updates), meeting transcripts, working notes, and planning data snapshots.
+- Refined / Silver (Contextualized — Drafts Only): Contains processed and contextualized knowledge generated through the two-stage AI/ML and LLM pipeline. Records in Silver are tagged with the defined taxonomy, scored for quality and confidence, and mapped to ontology entities, but remain in a Draft lifecycle state pending VCO CI Manager or SME validation.
+- Core / Gold (Approved Records): Houses trusted, validated, and medium/high-confidence knowledge records that have passed expert/manager review and transitioned from Draft to Approved lifecycle status. These records are fully tagged with the governed taxonomy and exposed to the Retrieval & Delivery Layer.
+Supporting Storage Components
+- Knowledge Graph (Ontology Instantiated): Powered by Neo4j, the knowledge graph is layered on the Gold zone to instantiate the platform's governed ontology—linking key entities, relationships, and constraints (Decision · Lesson · Outcome · Asset · SME) across approved records to enable rich relational context and multi-hop reasoning.
+- Data Catalog (Lineage, Access, API): Administered via Unity Catalog (complemented by Microsoft Purview and Entra ID), it records end-to-end data lineage, version history, role-based access permissions, and API exposure across each medallion zone so every record can be traced back to its source artifact.
+- Direct to Source (Live, Current State): Structured outputs from Planning Systems (model outputs) and BI & Dashboards (plan vs. actual) are queried live at the source rather than duplicated into the medallion layers. This preserves a single system of record and ensures end users always interact with real-time, current-state data.
+----------
+5. Retrieval & Delivery Layer
+
+The Retrieval & Delivery Layer serves as the consumption and interaction interface of the platform, connecting end-user personas to approved Core / Gold knowledge, the Knowledge Graph, Direct-to-Source operational data, and Refined / Silver review queues:
+
+- Hybrid Search (Semantic + Keyword): Powered by a Vector Store alongside lexical indexing, this capability combines dense vector embeddings (for conceptual and contextual similarity) with exact keyword matching (for specific asset names, acronyms, or codes) to ensure high-precision retrieval.
+- Assistant (Cited Answers): Built on Agentic AI (RAG) and Genie / Copilot, the conversational assistant synthesizes answers from approved Gold records and the Knowledge Graph. Every generated response includes explicit citations and links back to the underlying source artifacts tracked via the Data Catalog.
+- Filters (Domain, Region): Leverages the standardized metadata applied during Taxonomy Tagging (domain, site/region, category) to allow users to scope searches, assistant queries, and views to their specific operational area.
+- APIs / MCP (Tool Links): Exposed via APIs & Data Services and the Model Context Protocol (MCP), enabling seamless, synchronous integration with external enterprise applications, workflows, and live Direct-to-Source systems.
+- Genie One (Reason): Leverages Databricks Genie / Copilot and Agentic AI to provide multi-step reasoning and natural-language analytics over structured planning outputs, historical lookbacks, and interconnected entities in the Knowledge Graph.
+- Reporting (Low-Confidence): Delivered via Power BI, dedicated operational dashboards surface low-confidence and Draft records sitting in the Refined / Silver zone, routing items that require validation, editing, or approval to VCO CI Managers and VCO CI Backcasters.
+----------
+6. Governance & Security Layer
+
+The Governance & Security Layer underpins the entire platform, enforcing trust, compliance, traceability, and role-based security across ingestion, contextualization, storage, and retrieval. It is powered by Microsoft Purview, Databricks Unity Catalog, and Microsoft Entra ID:
+
+- Lifecycle States (Draft $\rightarrow$ Approved): Enforces strict state management across the Medallion Architecture. AI-extracted records in the Refined / Silver layer remain in Draft status until explicit human-in-the-loop sign-off by a VCO CI Manager or SME promotes them to Approved status in the Core / Gold layer.
+- Quality Tiers (High / Medium / Low): Governs how knowledge records are routed and consumed based on the Quality & Confidence Scoring assigned during LLM contextualization:
+    - High / Medium Confidence: Prioritized for validation and promotion to the Core / Gold layer for active retrieval.
+    - Low Confidence: Flagged and routed to Power BI Low-Confidence Reporting queues for mandatory VCO CI Backcaster and VCO CI Manager intervention.
+- Ontology & Taxonomy (Versioned, Periodic Review): Managed via Microsoft Purview and Cognite Data Fusion, the platform's semantic foundation (Decision · Lesson · Outcome · Asset · SME and domain, site, category hierarchies) is version-controlled and subjected to periodic governance reviews to prevent schema drift.
+- Audit & Versioning (Lineage, History): Administered through Unity Catalog and Microsoft Purview, maintaining immutable audit logs, version histories, and end-to-end data lineage so any Gold record, Knowledge Graph node, or Assistant citation traces back to its unmodified Raw / Bronze artifact.
+- Access Control (Role-Based): Integrated with Microsoft Entra ID and enforced at the data, table, and API level via Unity Catalog, applying granular Role-Based Access Control (RBAC) across all user personas and holding sensitive artifacts during event-driven triage.
