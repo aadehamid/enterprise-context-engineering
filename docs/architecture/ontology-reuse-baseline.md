@@ -2,24 +2,36 @@
 
 **Status:** Proposed (survey result, 2026-11-08; not a recorded decision)
 **Purpose:** Propose the publicly available ontologies ECE would import or borrow patterns from when the semantic layer is constructed, so the import set is proposed once and confirmed by review before construction starts. Until the owner records approval, every set below is a candidate, not a dependency.
-**Related:** [Shared Technical Foundation](shared-technical-foundation.md) section 11 fixes the *formats* (SKOS, RDF-star, SHACL, SSSOM); this document proposes the *public vocabularies* underneath those formats. Charter section 7, item 3 leaves the EPM Downstream Oil and Gas Ontology import as an open decision; the oil-and-gas section below feeds that decision.
+**Related:** [Shared Technical Foundation](shared-technical-foundation.md) section 11 fixes the *formats* (SKOS, RDF-star, SHACL, SSSOM) and already names PROV-O, OWL-Time, DCAT and DCMI Terms as governing standards. This document re-proposes and verifies those four as concrete imports, and proposes the public vocabularies beyond them. Charter section 7, item 3 leaves the EPM Downstream Oil and Gas Ontology import as an open decision; the oil-and-gas section below feeds that decision.
 
 Method: a web survey on 2026-11-08 of candidate ontologies across ten coverage areas (upper structure, provenance, time, data products and units, industrial/OT, events, organization, decisions, downstream oil and gas, documents). Licenses and activity dates were read from the GitHub API, W3C TR pages and the ETSI portal on that date, not from search snippets, except where marked. Re-verify each entry before an actual import; activity dates below say "pushed" as of 2026-11-08.
 
-## 1. Proposed to adopt (core import set)
+## 1. Core import set
+
+### 1a. Already named by the section 11 baseline
+
+These four appear in section 11's standards table today; this document re-proposes them as concrete imports and adds license and activity verification (all checked 2026-11-08):
 
 | Ontology | ECE layer | License | Maturity | Use in ECE |
 |---|---|---|---|---|
-| [PROV-O](https://www.w3.org/TR/prov-o/) (W3C TR, verified) | provenance, governance | W3C license | W3C Recommendation, 2013 | Claim-level provenance backbone: entities, activities, agents, derivation. |
-| [OWL-Time](https://www.w3.org/TR/owl-time/) (W3C TR, verified) | provenance, semantic | W3C license | W3C Recommendation, 2017 | Authoring time, decision time, effective-period semantics in the graph. |
-| [DCAT 3](https://www.w3.org/TR/vocab-dcat-3/) (W3C TR, verified) | semantic, governance | W3C license | W3C Recommendation, 2024 | Release catalogs: datasets, distributions, manifests. |
-| [SKOS](https://www.w3.org/TR/skos-reference/) | semantic | W3C license | W3C Recommendation, 2009 | Taxonomy and shared vocabulary; already fixed by the format baseline. |
+| [SKOS](https://www.w3.org/TR/skos-reference/) | semantic | W3C license | W3C Recommendation, 2009 | Taxonomy and shared vocabulary; section 11 already names it (plus SKOS-XL). |
+| [PROV-O](https://www.w3.org/TR/prov-o/) (W3C TR, verified) | provenance, governance | W3C license | W3C Recommendation, 2013 | Claim-level provenance backbone: entities, activities, agents, derivation; section 11 already names it for `semantic/ontology/`. |
+| [OWL-Time](https://www.w3.org/TR/owl-time/) (W3C TR, verified) | provenance, semantic | W3C license | W3C Recommendation, 2017 | Authoring time, decision time, effective-period semantics in the graph; section 11 already names it beside PROV-O. |
+| [DCAT 3](https://www.w3.org/TR/vocab-dcat-3/) (W3C TR, verified) | semantic, governance | W3C license | W3C Recommendation, 2024 | Release catalogs: datasets, distributions, manifests; section 11 already names it (with DCMI Terms) for release manifests. |
+| [DCMI Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | semantic, governance | DCMI license | DCMI maintained | Dublin Core Terms for artifact metadata alongside DCAT; section 11 already names it next to DCAT. |
+
+### 1b. Newly proposed here
+
+Candidates until this proposal is approved:
+
+| Ontology | ECE layer | License | Maturity | Use in ECE |
+|---|---|---|---|---|
 | [QUDT](https://github.com/qudt/qudt-public-repo) | semantic | CC-BY-4.0, plus a third-party UCUM license on the bundled UCUM codes ([LICENSING.md](https://github.com/qudt/qudt-public-repo/blob/main/LICENSING.md)) (GitHub API) | actively maintained (pushed 2026-11-06) | Units, quantities and dimensions for KPIs and engineer data. Published as an all-in-one SHACL distribution, but its user-level rules only check for deprecated instances and properties: ECE must run a SHACL validator explicitly and author its own KPI shapes on top. |
 | [SSN/SOSA](https://www.w3.org/TR/vocab-ssn/) (W3C TR, verified) | semantic, provenance | W3C license | W3C Recommendation, 2017 | Sensors and observations: historian windows, alarms, lab data. |
 | [ORG](https://www.w3.org/TR/vocab-org/) (W3C TR, verified) | semantic | W3C license | W3C Recommendation, 2014 | Organizations, roles, reporting structures. |
 | [ODRL 2.2](https://www.w3.org/TR/odrl-vocab/) (W3C TR, verified) | governance | W3C license | W3C Recommendation, 2018 | Source-classification and access policies on artifacts. |
 
-These eight are light, standard, and license-clean apart from QUDT's third-party UCUM terms, noted above. They carry infrastructure meaning only; none of them speaks about KPIs, decisions, evidence or epistemic status, which is where ECE's own vocabulary sits.
+Section 11's four named vocabularies carry its existing status already; the four newly proposed candidates are not dependencies until this proposal is approved. All of them are light, standard, and license-clean apart from QUDT's third-party UCUM terms, noted above, and none of them speaks about KPIs, decisions, evidence or epistemic status, which is where ECE's own vocabulary sits.
 
 ## 2. Proposed to adopt with caveats
 
