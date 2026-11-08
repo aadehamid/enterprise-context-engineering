@@ -1,0 +1,41 @@
+{
+  "cli_version": "0.12.2",
+  "checkpoint_id": "01M6WV5V70HAEHVZTV33W6XKV2",
+  "session_id": "01a1b9a8-369e-7550-a428-3273da959643",
+  "strategy": "manual-commit",
+  "created_at": "2026-11-08T05:47:55.626106Z",
+  "branch": "docs/km-baseline-architecture",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "docs/architecture/solution-architecture.md",
+    "docs/architecture/source/README.md",
+    "docs/architecture/source/km-baseline-reference.md"
+  ],
+  "agent": "Codex",
+  "model": "gpt-6-astra",
+  "turn_id": "452f15260283",
+  "checkpoint_transcript_start": 213,
+  "transcript_lines_at_start": 213,
+  "compact_transcript_start": 28,
+  "token_usage": {
+    "input_tokens": 13730,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1083648,
+    "output_tokens": 2440,
+    "api_call_count": 9
+  },
+  "redaction": {
+    "replacements": 39128,
+    "layers": {
+      "betterleaks": 0,
+      "connection_string": 0,
+      "credential_key": 0,
+      "credential_value": 0,
+      "credentialed_uri": 0,
+      "entropy": 39128,
+      "key_context": 0,
+      "provider_token": 0,
+      "shell_stdin": 0
+    }
+  }
+}
