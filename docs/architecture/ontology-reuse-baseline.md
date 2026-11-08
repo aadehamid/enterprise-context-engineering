@@ -1,12 +1,12 @@
 # Ontology reuse baseline — Enterprise Context Engineering
 
 **Status:** Proposed (survey result, 2026-11-08; not a recorded decision)
-**Purpose:** Name the publicly available ontologies ECE imports or borrows patterns from when the semantic layer is constructed, so the import set is decided once instead of rediscovered per artifact.
-**Related:** [Shared Technical Foundation](shared-technical-foundation.md) section 11 fixes the *formats* (SKOS, RDF-star, SHACL, SSSOM); this document picks the *public vocabularies* underneath those formats. Charter section 7, item 3 leaves the EPM Downstream Oil and Gas Ontology import as an open decision; the oil-and-gas section below feeds that decision.
+**Purpose:** Propose the publicly available ontologies ECE would import or borrow patterns from when the semantic layer is constructed, so the import set is proposed once and confirmed by review before construction starts. Until the owner records approval, every set below is a candidate, not a dependency.
+**Related:** [Shared Technical Foundation](shared-technical-foundation.md) section 11 fixes the *formats* (SKOS, RDF-star, SHACL, SSSOM); this document proposes the *public vocabularies* underneath those formats. Charter section 7, item 3 leaves the EPM Downstream Oil and Gas Ontology import as an open decision; the oil-and-gas section below feeds that decision.
 
 Method: a web survey on 2026-11-08 of candidate ontologies across ten coverage areas (upper structure, provenance, time, data products and units, industrial/OT, events, organization, decisions, downstream oil and gas, documents). Licenses and activity dates were read from the GitHub API, W3C TR pages and the ETSI portal on that date, not from search snippets, except where marked. Re-verify each entry before an actual import; activity dates below say "pushed" as of 2026-11-08.
 
-## 1. Adopt (core import set)
+## 1. Proposed to adopt (core import set)
 
 | Ontology | ECE layer | License | Maturity | Use in ECE |
 |---|---|---|---|---|
@@ -14,14 +14,14 @@ Method: a web survey on 2026-11-08 of candidate ontologies across ten coverage a
 | [OWL-Time](https://www.w3.org/TR/owl-time/) (W3C TR, verified) | provenance, semantic | W3C license | W3C Recommendation, 2017 | Authoring time, decision time, effective-period semantics in the graph. |
 | [DCAT 3](https://www.w3.org/TR/vocab-dcat-3/) (W3C TR, verified) | semantic, governance | W3C license | W3C Recommendation, 2024 | Release catalogs: datasets, distributions, manifests. |
 | [SKOS](https://www.w3.org/TR/skos-reference/) | semantic | W3C license | W3C Recommendation, 2009 | Taxonomy and shared vocabulary; already fixed by the format baseline. |
-| [QUDT](https://github.com/qudt/qudt-public-repo) | semantic | CC-BY-4.0 (GitHub API) | actively maintained (pushed 2026-11-06) | Units, quantities and dimensions for KPIs and engineer data; published in an **all-in-one SHACL** build, so it validates at import time. |
+| [QUDT](https://github.com/qudt/qudt-public-repo) | semantic | CC-BY-4.0, plus a third-party UCUM license on the bundled UCUM codes ([LICENSING.md](https://github.com/qudt/qudt-public-repo/blob/main/LICENSING.md)) (GitHub API) | actively maintained (pushed 2026-11-06) | Units, quantities and dimensions for KPIs and engineer data. Published as an all-in-one SHACL distribution, but its user-level rules only check for deprecated instances and properties: ECE must run a SHACL validator explicitly and author its own KPI shapes on top. |
 | [SSN/SOSA](https://www.w3.org/TR/vocab-ssn/) (W3C TR, verified) | semantic, provenance | W3C license | W3C Recommendation, 2017 | Sensors and observations: historian windows, alarms, lab data. |
 | [ORG](https://www.w3.org/TR/vocab-org/) (W3C TR, verified) | semantic | W3C license | W3C Recommendation, 2014 | Organizations, roles, reporting structures. |
 | [ODRL 2.2](https://www.w3.org/TR/odrl-vocab/) (W3C TR, verified) | governance | W3C license | W3C Recommendation, 2018 | Source-classification and access policies on artifacts. |
 
-These eight are light, standard, and license-clean. They carry infrastructure meaning only; none of them speaks about KPIs, decisions, evidence or epistemic status, which is where ECE's own vocabulary sits.
+These eight are light, standard, and license-clean apart from QUDT's third-party UCUM terms, noted above. They carry infrastructure meaning only; none of them speaks about KPIs, decisions, evidence or epistemic status, which is where ECE's own vocabulary sits.
 
-## 2. Adopt with caveats
+## 2. Proposed to adopt with caveats
 
 | Ontology | Use in ECE | Caveat |
 |---|---|---|
@@ -29,6 +29,7 @@ These eight are light, standard, and license-clean. They carry infrastructure me
 | [IOF Core](https://spec.industrialontologies.org/) (OAGi) | Manufacturing-grade core: measurement, process, resource concepts | MIT license per the OAGi/IOF portal. The GitHub mirror `iofoundry/Core` is archived (read-only since 2022-10); the spec portal is canonical. |
 | [BFO](https://github.com/BFO-ontology/BFO) | Top level if ECE follows the IOF route | CC-BY-4.0 (GitHub API), last pushed 2024-01. Choose one upper ontology: BFO (when IOF concepts are wanted) or GIST below — do not import both. |
 | [GIST](https://github.com/semanticarts/gist) (Semantic Arts) | Simpler enterprise upper ontology alternative to BFO | CC-BY-4.0 (GitHub API), very active (pushed 2026-11-03). Lighter than BFO; weaker when IOF's manufacturing detail is wanted. |
+| CCO ([Common Core Ontologies](https://github.com/CommonCoreOntology/CommonCoreOntologies)) | BFO-dependent core with released artifacts (BSD-3-Clause per the repository API; pushed 2026-10-02; merged CCO-2.2 Turtle published 2026-08-14) | The repository's README plans structural 3.0 and 4.0 changes, so anything built on CCO 2.2 rides a moving target. Weigh against GIST's lighter, stable alternative; re-examine at CCO 3.0 if BFO/GIST both disappoint. |
 | [SAREF suite](https://saref.etsi.org/) (ETSI) | Systems, industry and manufacturing extensions behind SAREF4INMA and SAREF4SYST | ETSI publishes the suite free and versioned. `saref.etsi.org/saref4industry/` returned 404 during the survey; confirm the intended extension page before use. |
 | [EPCIS 2.0 + CBV](https://www.gs1.org/standards/epcis) (GS1) | Event vocabulary with what/when/where/why/how | Standard is freely available; check whether importing the RDF vocabulary or restating its event shapes is the better fit, since EPCIS is supply-chain oriented. |
 | [PREMIS OWL](https://www.loc.gov/standards/premis/ontology/) (Library of Congress) | Documents and records as evidence objects: objects, events, agents | Verified on the LoC page; heavier than PROV-O alone. Borrow its document/record shapes rather than importing wholesale. |
@@ -49,7 +50,7 @@ These eight are light, standard, and license-clean. They carry infrastructure me
 | [Accenture OSDU-Ontology](https://github.com/Accenture/OSDU-Ontology) | Apache-2.0, pushed 2024-12, but upstream/subsurface-biased and a single-vendor artifact (38 stars). Reference for source-system alignment, not an import. |
 | [OpenEnergy Ontology](https://github.com/OpenEnergyPlatform/ontology) | CC0 and very active, but energy-policy focused; tangential to downstream refining. |
 | FaBiO / BIBO | Scholarly-bibliographic focus; PREMIS plus PROV-O cover ECE's document case. |
-| DOLCE/UFO/DOL, CCO | Evidence too thin during the survey: no well-maintained release artifact surfaced that could be verified directly. Re-examine only if BFO/GIST both disappoint. |
+| DOLCE/UFO/DOL | Evidence too thin during the survey: no well-maintained release artifact surfaced that could be verified directly. Re-examine only if BFO/GIST both disappoint. |
 
 ## 5. Keep bespoke
 
