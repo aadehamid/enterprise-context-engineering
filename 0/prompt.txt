@@ -1,0 +1,7 @@
+Set up Dagger for Entire:
+
+1. If needed, set up Dagger: https://docs.dagger.io/getting-started
+
+2. Run `dagger cloud checks on`, so that Dagger Cloud runs my checks on every push.
+
+3. Walk me through a test Trail, to verify that it all works.
