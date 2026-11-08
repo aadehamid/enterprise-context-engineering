@@ -177,7 +177,7 @@ enterprise-context-engineering/
 └── .env.example
 ```
 
-Only two files in the `docs/architecture/` block above exist today: `shared-technical-foundation.md` and `epm-ece-ppc-operating-model.md`. Neither `schemas/` nor `semantic/` exists yet. They are the *intended* paths for the versioned contracts ECE would publish to downstream consumers such as PPC; nothing is published until the first versioned contract set is released (proposed for Phase 3; see charter section 7, item 5).
+Only two files in the `docs/architecture/` block above exist today: `shared-technical-foundation.md` and `epm-ece-ppc-operating-model.md`. `schemas/` and `pipelines/` are still empty, and `semantic/` holds its first placeholder file (`semantic/competency-questions/README.md`). They are the *intended* paths for the versioned contracts ECE would publish to downstream consumers such as PPC; nothing is published until the first versioned contract set is released (proposed for Phase 3; see charter section 7, item 5).
 
 Large generated data, document bundles, rendered artifacts, Parquet data, graph exports, and hidden evaluation truth should not be committed to Git. Store them in controlled object storage with versioned manifests. See the Cloudflare R2 workflow in [docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md](docs/strategy/cloudflare-r2-data-storage-and-agent-workflow.md).
 

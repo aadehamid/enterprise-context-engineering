@@ -109,12 +109,14 @@ The semantic layer follows established standards instead of inventing formats. E
 | SKOS (plus SKOS-XL where a label needs its own history) | taxonomy: concepts, labels, hierarchy, associative relations | `semantic/taxonomy/` |
 | RDF 1.2 triple terms (RDF-star) | claims about statements: claim-level provenance carrying its own evidence, epistemic status and validity window | `semantic/ontology/` |
 | PROV-O and OWL-Time | entities, activities, agents; instants, intervals, durations | `semantic/ontology/` |
-| DCAT and DCMI Terms | corpus release catalogs: datasets, distributions, manifests | `pipelines/` release assets |
+| DCAT and DCMI Terms | corpus release catalogs: datasets, distributions, manifests | release manifests in R2 (see the [Cloudflare R2 workflow](../strategy/cloudflare-r2-data-storage-and-agent-workflow.md)), with OpenMetadata providing catalog context (section 8) |
 | SHACL | write-time validation of graph constraints | `semantic/shapes/` |
 | SSSOM | mapping sets between vocabularies, mapped with provenance | `semantic/mappings/` |
-| W3CDTF | format of every date and timestamp field, including time zone | time-validity fields throughout |
+| W3CDTF | format of every single-point date and timestamp field, including time zone | time-validity fields throughout |
 | ANSI/NISO Z39.19 and ISO 25964 | editorial rules for controlled vocabulary: term selection, warrant, scope notes | `semantic/controlled-vocabulary/` (new stage, proposed) |
 
-Section 2 already covers the open-source stack for this: Jena/Fuseki, plus pySHACL, Skosify and RDFLib for validation and vocabulary processing.
+Section 2's stack provides the server layer for this work: Jena/Fuseki with SHACL and SPARQL. Three lightweight libraries complete it, entering per section 3 only when a pipeline requirement justifies them: pySHACL for standalone SHACL validation in generation and test pipelines, Skosify to convert RDFS/OWL vocabularies to SKOS, and RDFLib for RDF processing in Python.
+
+On date formats, W3CDTF (an ISO 8601 profile) governs single time points. A field that may hold a period — effective time in the [knowledge-source inventory](../discovery/knowledge-source-inventory.md) — keeps ISO 8601 date-or-interval syntax in its string form, and OWL-Time carries the interval semantics in the graph.
 
 The vocabulary build order follows the sequence controlled vocabulary → metadata schema → taxonomy → thesaurus → ontology → knowledge graph. This means `semantic/` gains a `controlled-vocabulary/` stage before taxonomy work starts. Competency questions gate the sequence; see [the competency question README](../../semantic/competency-questions/README.md).
