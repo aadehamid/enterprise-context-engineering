@@ -99,3 +99,22 @@ Great Expectations validates structured outputs and release rules. SHACL validat
 PPC and ECE may use the same technologies, containers, helper libraries and deployment patterns, but they should not share one project's data bucket, hidden truth, release namespace or domain-specific configuration.
 
 > **Share platform patterns and reusable code. Keep project truth, semantics, releases and access boundaries separate.**
+
+## 11. Semantic standards baseline
+
+The semantic layer follows established standards instead of inventing formats. Each standard maps to the ECE artifact it governs.
+
+| Standard | Governs | ECE artifact |
+|---|---|---|
+| SKOS (plus SKOS-XL where a label needs its own history) | taxonomy: concepts, labels, hierarchy, associative relations | `semantic/taxonomy/` |
+| RDF 1.2 triple terms (RDF-star) | claims about statements: claim-level provenance carrying its own evidence, epistemic status and validity window | `semantic/ontology/` |
+| PROV-O and OWL-Time | entities, activities, agents; instants, intervals, durations | `semantic/ontology/` |
+| DCAT and DCMI Terms | corpus release catalogs: datasets, distributions, manifests | `pipelines/` release assets |
+| SHACL | write-time validation of graph constraints | `semantic/shapes/` |
+| SSSOM | mapping sets between vocabularies, mapped with provenance | `semantic/mappings/` |
+| W3CDTF | format of every date and timestamp field, including time zone | time-validity fields throughout |
+| ANSI/NISO Z39.19 and ISO 25964 | editorial rules for controlled vocabulary: term selection, warrant, scope notes | `semantic/controlled-vocabulary/` (new stage, proposed) |
+
+Section 2 already covers the open-source stack for this: Jena/Fuseki, plus pySHACL, Skosify and RDFLib for validation and vocabulary processing.
+
+The vocabulary build order follows the sequence controlled vocabulary → metadata schema → taxonomy → thesaurus → ontology → knowledge graph. This means `semantic/` gains a `controlled-vocabulary/` stage before taxonomy work starts. Competency questions gate the sequence; see [the competency question README](../../semantic/competency-questions/README.md).
