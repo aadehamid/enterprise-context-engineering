@@ -50,9 +50,9 @@ This repository remains a **context-layer and evaluation framework**. It is not 
 
 - **EPM (Enterprise Performance Model)** defines what the downstream enterprise means and how performance is represented, including the Downstream Oil and Gas Ontology (the same artifact earlier referred to as the "LSC ontology"). **Proposed:** ECE imports that ontology rather than forking it; this is still an open decision in the [project charter](docs/charter.md) (section 7, item 3).
 - **ECE (this repository)** defines how trustworthy enterprise context is assembled, grounded, temporally bounded, traced to evidence, and evaluated.
-- **PPC (Pearland Petroleum Corporation)** is a downstream proving ground that integrates both. **Proposed:** it consumes versioned ECE contracts once they are published; it is not an ECE runtime dependency, and ECE does not need PPC to build or validate its own artifacts.
+- **PPC (Pearland Petroleum Corporation)** is a downstream proving ground that integrates both and owns the canonical enterprise world model (Refinery A v1, reconciled in `aadehamid/pearland-petroleum-corporation` at commit `ebc226f`, `ADR-0040` through `ADR-0056`). Across the five-repository downstream ecosystem (EPM, ECE, `industrial-context-engineering`, `engineering-drawing-intelligence`, and PPC), PPC holds Refinery A hidden truth exclusively under `evaluation/hidden/`, consumes ECE contracts through a commit-pinned provisional adapter (`ADR-0042`), and plans to publish role-scoped `observable/` evidence and decision-dossier fixtures via `WorldExportBundle` in `WP-8B` (`ADR-0053`). PPC is not an ECE runtime dependency, and ECE does not need PPC to build or validate its own artifacts.
 
-**Lagos Specialty Chemicals (LSC)** is ECE's own worked-example scenario for the synthetic corpus and the knowledge-source inventory. It is a separate fictitious enterprise from PPC, which is a different downstream company.
+**Lagos Specialty Chemicals (LSC)** remains ECE's standalone worked-example scenario for developing and testing ECE's reusable synthetic corpus, provenance, temporal-validity, and evaluation contracts independently of PPC. ECE does not duplicate or redefine PPC's Refinery A canonical world truth.
 
 The relationships above are proposed, matching the `Status: Proposed` of the two architecture documents linked below.
 

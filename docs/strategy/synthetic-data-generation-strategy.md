@@ -358,6 +358,8 @@ The generation and validation pipeline may reuse platform components shared with
 
 Whichever components are used, hidden truth must stay isolated from every shared store available to the evaluated agent.
 
+**2026-11-26 PPC world-model boundary:** This strategy governs ECE's standalone LSC evaluation corpus and reusable generation patterns. In the integrated five-repository downstream ecosystem, `aadehamid/pearland-petroleum-corporation` owns the canonical Refinery A v1 world model (`evaluation/hidden/` truth and planned `observable/` `WorldExportBundle` role-scoped evidence/dossier fixtures in `WP-8B` under `ADR-0053`). ECE does not generate a competing Refinery A world truth; see [EPM–ECE–PPC Operating Model](../architecture/epm-ece-ppc-operating-model.md#9-2026-11-26-ppc-canonical-world-model-and-five-repository-boundary).
+
 ### 8.4 LLM orchestration
 
 Use structured output with schema validation for document plans, source assertions, and artifact metadata. LLMs should receive only the relevant slice of canonical scenario context necessary to generate each artifact. This reduces leakage of the full truth into a single document and improves role-appropriate realism.

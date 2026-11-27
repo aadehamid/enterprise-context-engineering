@@ -101,6 +101,14 @@ ECE and PPC should have:
 
 > **EPM defines enterprise meaning. ECE defines trustworthy context. PPC proves that both can operate together.**
 
-## 9. 2026-11-26 PPC baseline note
+## 9. 2026-11-26 PPC canonical world-model and five-repository boundary
 
-On 2026-11-26, PPC reconciled its baseline at commit `f3086f7862c2cfd75c29ed0c48ed5ead4f513d1f` (`ADR-0040` through `ADR-0056`). PPC integrates EPM, ECE, `aadehamid/industrial-context-engineering` (formerly `scada_harmonization`), and `aadehamid/engineering-drawing-intelligence` (formerly `Engineering_Drawing_to_Graph`) through commit-pinned provisional adapters (`ADR-0042`) so PPC implementation does not block on pending upstream releases. PPC plans to publish a coherent Refinery A `WorldExportBundle` in `WP-8B` (`ADR-0053`). ECE remains independent of PPC and keeps its own contracts and bucket boundaries separate.
+On 2026-11-26, PPC reconciled its baseline in `aadehamid/pearland-petroleum-corporation` (`ADR-0040` through `ADR-0056`, repo-rename alignment merged at commit `ebc226f`). Within the five-repository downstream ecosystem, ownership splits as follows:
+
+- **PPC (`aadehamid/pearland-petroleum-corporation`)** owns the single canonical enterprise world model (Refinery A v1), runs the mechanistic refinery and enterprise simulation, isolates hidden world truth exclusively under `evaluation/hidden/`, and plans to publish `WorldExportBundle` in `WP-8B` (`ADR-0053`). `WorldExportBundle` is partitioned into `observable/` (consumed by operational pipelines and sister repositories) and `hidden_truth/` (restricted to replay grading and backcasting attribution).
+- **EPM (`aadehamid/enterprise-performance-model`)** owns downstream business, process, and KPI semantics.
+- **ECE (`aadehamid/enterprise-context-engineering`)** owns domain-neutral context, provenance, temporal-validity, hidden-truth isolation, and evaluation contracts. ECE keeps Lagos Specialty Chemicals (LSC) as its independent standalone worked example and does not duplicate PPC's Refinery A canonical world truth.
+- **ICE (`aadehamid/industrial-context-engineering`, formerly `scada_harmonization`)** owns OT harmonization and Sparkplug B UNS patterns.
+- **EDI (`aadehamid/engineering-drawing-intelligence`, formerly `Engineering_Drawing_to_Graph`)** owns engineering drawing and DEXPI topology graph patterns.
+
+PPC consumes EPM, ECE, ICE, and EDI through commit-pinned provisional adapters (`ADR-0042`) so PPC implementation does not block on pending upstream releases. ECE remains independent of PPC and keeps its own contracts, R2 bucket, release manifests, and hidden-evaluation boundaries separate.
