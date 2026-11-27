@@ -34,9 +34,11 @@ Reuse technology only when it supports ECE's own responsibilities: synthetic tru
 
 ## 3. Do not inherit PPC-specific infrastructure by default
 
-ECE does not need Twenty, ERPNext, Debezium, Kafka, Superset, OR-Tools, downstream forecasting libraries, or PPC's operational workflow application simply because PPC uses them.
+ECE does not need Twenty, ERPNext, Debezium, Kafka, Redpanda, Superset, OR-Tools, downstream forecasting libraries, or PPC's operational workflow application simply because PPC uses or evaluated them.
 
 A technology enters ECE only after an ECE requirement justifies it.
+
+**2026-11-26 PPC baseline note:** PPC reconciled its architecture at commit `f3086f7862c2cfd75c29ed0c48ed5ead4f513d1f` (`ADR-0040` through `ADR-0056`). PPC moved from DuckLake to Delta Lake on Cloudflare R2 (`ADR-0045`), from Kafka and Debezium in Slice 1 to Redpanda with a transactional outbox (`ADR-0046`), from a standing Apache Jena/Fuseki server to Git Turtle validated by `pyshacl` projected to Neo4j Community (`ADR-0044`), and from Cloudflare D1 to PostgreSQL workflow state (`ADR-0055`). The ECE component options in section 2 remain ECE's own proposed choices and are not automatically changed by PPC's ADRs.
 
 ## 4. Formal meaning versus operational context
 

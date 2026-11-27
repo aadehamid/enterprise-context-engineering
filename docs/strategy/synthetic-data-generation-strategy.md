@@ -350,7 +350,7 @@ These products can accelerate record generation but must be constrained by scena
 
 ### 8.3 Optional shared implementation components
 
-The generation and validation pipeline may reuse platform components shared with sibling projects, as described in the [Shared Technical Foundation](../architecture/shared-technical-foundation.md). These are implementation choices, not requirements of this strategy:
+The generation and validation pipeline may reuse platform components shared with sibling projects, as described in the [Shared Technical Foundation](../architecture/shared-technical-foundation.md) (see its 2026-11-26 note on PPC's reconciled Delta Lake, Redpanda, and Git Turtle plus `pyshacl` to Neo4j baseline). These are implementation choices, not requirements of this strategy:
 
 - **DuckDB** for processing and validating generated Parquet/JSON/CSV; **DuckLake** for structured release and evaluation history when volume justifies it. R2 remains the durable store for native documents, large datasets, and hidden truth.
 - **Apache Jena/Fuseki** for the Downstream Oil and Gas Ontology (if imported; charter open decision 3), ECE context semantics, RDF provenance, and SHACL validation.

@@ -100,3 +100,7 @@ ECE and PPC should have:
 ## 8. Governing statement
 
 > **EPM defines enterprise meaning. ECE defines trustworthy context. PPC proves that both can operate together.**
+
+## 9. 2026-11-26 PPC baseline note
+
+On 2026-11-26, PPC reconciled its baseline at commit `f3086f7862c2cfd75c29ed0c48ed5ead4f513d1f` (`ADR-0040` through `ADR-0056`). PPC integrates EPM, ECE, `aadehamid/industrial-context-engineering` (formerly `scada_harmonization`), and `aadehamid/engineering-drawing-intelligence` (formerly `Engineering_Drawing_to_Graph`) through commit-pinned provisional adapters (`ADR-0042`) so PPC implementation does not block on pending upstream releases. PPC plans to publish a coherent Refinery A `WorldExportBundle` in `WP-8B` (`ADR-0053`). ECE remains independent of PPC and keeps its own contracts and bucket boundaries separate.
