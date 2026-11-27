@@ -301,6 +301,8 @@ Sibling projects (for example PPC) may adopt the same prefix *vocabulary* so too
 
 Project-specific hidden-truth prefixes and the credentials that can read them stay separate per project, even when the prefix names match.
 
+**2026-11-26 PPC world-model boundary:** This R2 layout governs ECE's standalone Lagos Specialty Chemicals (LSC) benchmark corpus in ECE's own bucket. For the integrated downstream refinery world, `aadehamid/pearland-petroleum-corporation` owns the canonical Refinery A v1 world model in PPC's separate R2 bucket (`evaluation/hidden/` for hidden truth; planned `observable/` `WorldExportBundle` export in `WP-8B` under `ADR-0053`) and classifies pre-world-model R2 objects as `LEGACY_PRE_WORLD_MODEL` without altering ECE's bucket. See [EPM–ECE–PPC Operating Model](../architecture/epm-ece-ppc-operating-model.md#9-2026-11-26-ppc-canonical-world-model-and-five-repository-boundary).
+
 ### 5.3 Analytical tools as optional consumers of R2
 
 DuckDB and DuckLake are **optional consumers** of R2, not replacements for it:

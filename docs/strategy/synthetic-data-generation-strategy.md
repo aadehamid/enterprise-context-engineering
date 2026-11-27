@@ -350,13 +350,15 @@ These products can accelerate record generation but must be constrained by scena
 
 ### 8.3 Optional shared implementation components
 
-The generation and validation pipeline may reuse platform components shared with sibling projects, as described in the [Shared Technical Foundation](../architecture/shared-technical-foundation.md). These are implementation choices, not requirements of this strategy:
+The generation and validation pipeline may reuse platform components shared with sibling projects, as described in the [Shared Technical Foundation](../architecture/shared-technical-foundation.md) (see its 2026-11-26 note on PPC's reconciled Delta Lake, NATS JetStream, and Git Turtle plus `pyshacl` to Neo4j baseline). These are implementation choices, not requirements of this strategy:
 
 - **DuckDB** for processing and validating generated Parquet/JSON/CSV; **DuckLake** for structured release and evaluation history when volume justifies it. R2 remains the durable store for native documents, large datasets, and hidden truth.
 - **Apache Jena/Fuseki** for the Downstream Oil and Gas Ontology (if imported; charter open decision 3), ECE context semantics, RDF provenance, and SHACL validation.
 - **Neo4j** for the decision/evidence/context graph.
 
 Whichever components are used, hidden truth must stay isolated from every shared store available to the evaluated agent.
+
+**2026-11-26 PPC world-model boundary:** This strategy governs ECE's standalone LSC evaluation corpus and reusable generation patterns. In the integrated five-repository downstream ecosystem, `aadehamid/pearland-petroleum-corporation` owns the canonical Refinery A v1 world model (`evaluation/hidden/` truth and planned `observable/` `WorldExportBundle` role-scoped evidence/dossier fixtures in `WP-8B` under `ADR-0053`). ECE does not generate a competing Refinery A world truth; see [EPM–ECE–PPC Operating Model](../architecture/epm-ece-ppc-operating-model.md#9-2026-11-26-ppc-canonical-world-model-and-five-repository-boundary).
 
 ### 8.4 LLM orchestration
 

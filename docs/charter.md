@@ -131,7 +131,15 @@ mechanically in CI, including on any shared-platform stores in use.*
   and temporal-context models, evidence/inference/contradiction/unknown
   vocabulary, hidden-truth isolation rules, evaluation rubric); once
   published, PPC release manifests record the ECE versions they consume. None
-  of these is published yet; timing is open decision 5. See
+  of these is published yet; timing is open decision 5. On 2026-11-26, PPC
+  reconciled its baseline (`ADR-0040` through `ADR-0056`) as the canonical
+  Refinery A enterprise world model across the five-repository ecosystem (EPM,
+  ECE, `industrial-context-engineering`, `engineering-drawing-intelligence`,
+  and PPC), consuming ECE through a commit-pinned provisional adapter
+  (`ADR-0042`) and planning a two-part `WorldExportBundle` (`observable/` for
+  sister repositories; `hidden_truth/` under `evaluation/hidden/` for grading
+  only) in `WP-8B` (`ADR-0053`). ECE keeps LSC as its independent worked
+  example and does not duplicate PPC's Refinery A world truth. See
   `docs/architecture/epm-ece-ppc-operating-model.md`.
 - **Compute** for generation, validation, and graph builds: TBD — sized at
   the Phase 1 gate.
